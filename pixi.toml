@@ -1,0 +1,33 @@
+[project]
+authors = ["Jack Myers <jack.myers@intel.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "build-intel-sycl"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+clone = "./scripts/clone.sh"
+intel-runtimes = { cmd = "python scripts/download_intel_runtimes.py", depends-on = [
+  "clone",
+] }
+configure = { cmd = "./scripts/configure.sh", depends-on = ["intel-runtimes"] }
+build = { cmd = "./scripts/build.sh", depends-on = ["configure"] }
+
+[dependencies]
+cmake = ">=3.30.4,<4"
+python = ">=3.12.6,<4"
+ninja = ">=1.12.1,<2"
+gxx_linux-64 = ">=13.2.0,<14"
+gcc_linux-64 = ">=13.2.0,<14"
+clangxx_linux-64 = ">=18,<19"
+clang_linux-64 = ">=18,<19"
+sysroot_linux-64 = ">=2.28"
+ocl-icd = ">=2.3.2,<3"
+ocl-icd-system = ">=1.0.0,<2"
+cuda = ">=12.6.2,<13"
+ccache = ">=4.10.1,<5"
+clinfo = ">=3.0.21.2.21,<4"
+
+[activation]
+scripts = ["env.sh"]
