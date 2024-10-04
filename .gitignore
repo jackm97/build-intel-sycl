@@ -4,3 +4,4 @@
 deps
 intel/oneapi
 llvm
+onemkl
