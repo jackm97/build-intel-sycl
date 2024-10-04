@@ -4,12 +4,12 @@ import subprocess
 import shutil
 
 
-def run_cmd(cmd, dry_run=True):
+def run_cmd(cmd, dry_run=True, ignore_error=False):
     print(f"Running command: {cmd}")
     if dry_run:
         return
     result = subprocess.run(cmd, shell=True, check=True)
-    if result.returncode != 0:
+    if result.returncode != 0 and not ignore_error:
         raise subprocess.CalledProcessError(result.returncode, cmd)
 
     print("\n")
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     required_deps = ["oclcpu", "fpgaemu", "tbb"]
     zipfiles_out = ["oclcpu.tar.gz", "fpgaemu.tar.gz", "tbb.tar.gz"]
     download_dir = os.environ.get("PIXI_PROJECT_ROOT", "") + "/deps"
-    install_dir = f"{os.environ["HOME"]}/intel/oneapi"
+    install_dir = f"{os.environ["SYCL_INSTALL_PREFIX"]}"
     if not os.path.exists(download_dir):
         os.makedirs(download_dir)
     if not os.path.exists(install_dir):
@@ -64,14 +64,14 @@ if __name__ == "__main__":
             for item in os.listdir(f"{dep_install_root}/x64"):
                 if item.endswith(".so") and "libintelocl_emu" in item:
                     oclicd_cmd = f"echo {dep_install_root}/x64/{item} | sudo tee /etc/OpenCL/vendors/intel_fpgaemu.icd"
-                    run_cmd(oclicd_cmd, dry_run=False)
+                    run_cmd(oclicd_cmd, dry_run=False, ignore_error=True)
                     break
 
         if dep == "oclcpu":
             for item in os.listdir(f"{dep_install_root}/x64"):
                 if item.endswith(".so") and "libintelocl" in item:
                     oclicd_cmd = f"echo {dep_install_root}/x64/{item} | sudo tee /etc/OpenCL/vendors/intel_oclcpu.icd"
-                    run_cmd(oclicd_cmd, dry_run=False)
+                    run_cmd(oclicd_cmd, dry_run=False, ignore_error=True)
                     break
 
         if dep == "tbb":
@@ -79,11 +79,10 @@ if __name__ == "__main__":
                 if item.endswith(".so"):
                     tbb_cmd = f"ln -sf {dep_install_root}/lib/intel64/gcc4.8/{item} {dep_install_roots[0]}/x64/{item}"
                     run_cmd(tbb_cmd)
-            ldconfig_cmd0 = f"echo {dep_install_roots[0]}/x64 | sudo tee /etc/ld.so.conf.d/libintelopenclexp.conf"
-            ldconfig_cmd1 = f"echo {dep_install_roots[1]}/x64 | sudo tee -a /etc/ld.so.conf.d/libintelopenclexp.conf"
+            ldconfig_cmd0 = f"echo 'export LD_LIBRARY_PATH={dep_install_roots[0]}/x64:$LD_LIBRARY_PATH' | tee -a {install_dir}/setvars.sh"
+            ldconfig_cmd1 = f"echo 'export LD_LIBRARY_PATH={dep_install_roots[1]}/x64:$LD_LIBRARY_PATH' | tee -a {install_dir}/setvars.sh"
             run_cmd(ldconfig_cmd0, dry_run=False)
             run_cmd(ldconfig_cmd1, dry_run=False)
-            run_cmd("sudo ldconfig -f /etc/ld.so.conf.d/libintelopenclexp.conf")
 
     user = os.environ.get("USER", None)
     if not user:
@@ -91,9 +90,9 @@ if __name__ == "__main__":
     permissions_cmd = (
         f"sudo chown -R {user} {install_dir} && sudo chmod -R u+rwx {install_dir}"
     )
-    run_cmd(permissions_cmd, dry_run=False)
+    run_cmd(permissions_cmd, dry_run=False, ignore_error=True)
 
     link_ocl_vendors_cmd = (
         "ln -sf /etc/OpenCL/vendors/* $CONDA_PREFIX/etc/OpenCL/vendors"
     )
-    run_cmd(link_ocl_vendors_cmd, dry_run=False)
+    run_cmd(link_ocl_vendors_cmd, dry_run=False, ignore_error=True)

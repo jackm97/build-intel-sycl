@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python "$DPCPP_HOME"/llvm/buildbot/compile.py
+cmake --build "$DPCPP_HOME"/llvm/build --target deploy-sycl-toolchain

@@ -7,4 +7,12 @@ export LDFLAGS="$CONDA_BACKUP_LDFLAGS"
 export CMAKE_ARGS="$CONDA_BACKUP_CMAKE_ARGS"
 export CC="$CONDA_BACKUP_CC"
 export CXX="$CONDA_BACKUP_CXX"
-export CMAKE_PREFIX_PATH="$CONDA_BACKUP_CMAKE_PREFIX_PATH $HOME/intel/tbb/oneapi-tbb-2021.12.0"
+
+if [ -z "$SYCL_INSTALL_PREFIX" ]; then
+  export SYCL_INSTALL_PREFIX="$PIXI_PROJECT_ROOT/intel/oneapi"
+fi
+
+export CMAKE_PREFIX_PATH="$CONDA_BACKUP_CMAKE_PREFIX_PATH:$SYCL_INSTALL_PREFIX/tbb/oneapi-tbb-2021.12.0"
+
+# cpp_incl_path="$(find "$CONDA_PREFIX" -wholename "*/include/c++" -type d)"
+# export CMAKE_INCLUDE_PATH="$cpp_incl_path"
