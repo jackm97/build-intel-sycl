@@ -40,6 +40,16 @@ python = "*"
 ninja = "*"
 sysroot_linux-64 = ">=2.28"
 clang = "*"
+onemkl-sycl-vm = ">=2024.2.2,<2025"
+onemkl-sycl-dft = ">=2024.2.2,<2025"
+onemkl-sycl-rng = ">=2024.2.2,<2025"
+onemkl-sycl-blas = ">=2024.2.2,<2025"
+onemkl-sycl-stats = ">=2024.2.2,<2025"
+onemkl-sycl-lapack = ">=2024.2.2,<2025"
+onemkl-sycl-sparse = ">=2024.2.2,<2025"
+onemkl-sycl-datafitting = ">=2024.2.2,<2025"
+mkl-devel = ">=2024.2.2,<2025"
+mkl-static = ">=2024.2.2,<2025"
 
 [feature.onemkl.activation]
 scripts = ["env.sh", "mkl_env.sh"]
