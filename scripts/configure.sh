@@ -13,6 +13,7 @@ done
 python "$DPCPP_HOME"/llvm/buildbot/configure.py \
   --cuda --native_cpu \
   --llvm-external-projects="clang-tools-extra,compiler-rt" \
+  --cmake-opt="-DCUDA_TOOLKIT_ROOT_DIR=$CONDA_PREFIX/targets/x86_64-linux" \
   --cmake-opt="-DCMAKE_CXX_COMPILER=$CXX" \
   --cmake-opt="-DCMAKE_C_COMPILER=$CC" \
   --cmake-opt="-DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH//:/;}" \
@@ -22,4 +23,5 @@ python "$DPCPP_HOME"/llvm/buildbot/configure.py \
   --cmake-opt="-DNATIVECPU_USE_OCK=Off" \
   --cmake-opt="-DSYCL_PI_TESTS=OFF" \
   --cmake-opt="-DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=SPIRV" \
+  --cmake-opt="-DLLVM_USE_LINKER=lld" \
   --cmake-opt="-DLLVM_INSTALL_UTILS=ON" "$extra_opts"
