@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd onemkl/build
+cd onemkl/build || exit
 
 cmake --install .

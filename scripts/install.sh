@@ -10,3 +10,5 @@ cmake --build "$DPCPP_HOME"/llvm/build --target install-llvm-size
 cmake --build "$DPCPP_HOME"/llvm/build --target install-llvm-cov
 cmake --build "$DPCPP_HOME"/llvm/build --target install-llvm-profdata
 cmake --build "$DPCPP_HOME"/llvm/build --target install-compiler-rt
+
+sudo chown -R $USER $SYCL_INSTALL_PREFIX

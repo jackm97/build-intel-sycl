@@ -1,6 +1,13 @@
-export ONEMKL_INSTALL_PREFIX=$SYCL_INSTALL_PREFIX/onemkl
+if [ -z "$SYCL_INSTALL_PREFIX" ]; then
+  export SYCL_INSTALL_PREFIX="$PIXI_PROJECT_ROOT/intel/oneapi"
+fi
+
 source "$SYCL_INSTALL_PREFIX"/setvars.sh
-export CXX_COMPILER=$(which clang++)
-export C_COMPILER=$(which clang)
+
+export ONEMKL_INSTALL_PREFIX=$SYCL_INSTALL_PREFIX/onemkl
+
+CXX_COMPILER=$(which clang++)
+export CXX_COMPILER=$CXX_COMPILER
 export LIBRARY_PATH=$LD_LIBRARY_PATH
-export MKLROOT=$CONDA_PREFIX
+# export MKLROOT=$CONDA_PREFIX
+export CMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH:$SYCL_INSTALL_PREFIX/tbb/oneapi-tbb-2021.12.0"

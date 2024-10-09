@@ -8,9 +8,8 @@ cd build || exit
 
 rm -f CMakeCache.txt
 
-cmake .. -G Ninja -DCMAKE_CXX_COMPILER=$CXX_COMPILER \
-  -DCMAKE_C_COMPILER=$CC_COMPILER \
-  -DENABLE_MKLCPU_BACKEND=False \
+cmake .. -G Ninja \
+  -DENABLE_MKLCPU_BACKEND=True \
   -DENABLE_MKLGPU_BACKEND=False \
   -DENABLE_CUBLAS_BACKEND=True \
   -DENABLE_CUSOLVER_BACKEND=True \

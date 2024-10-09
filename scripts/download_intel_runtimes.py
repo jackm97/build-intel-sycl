@@ -35,8 +35,8 @@ if __name__ == "__main__":
     if not os.path.exists(install_dir):
         os.makedirs(install_dir)
 
-    if not os.path.exists("/etc/OpenCL/vendors"):
-        mkdir_cmd = "sudo mkdir -p /etc/OpenCL/vendors"
+    if not os.path.exists(f"{install_dir}/etc/OpenCL/vendors"):
+        mkdir_cmd = f"mkdir -p {install_dir}/etc/OpenCL/vendors"
         run_cmd(mkdir_cmd, dry_run=False)
 
     dep_install_roots = []
@@ -63,14 +63,14 @@ if __name__ == "__main__":
         if dep == "fpgaemu":
             for item in os.listdir(f"{dep_install_root}/x64"):
                 if item.endswith(".so") and "libintelocl_emu" in item:
-                    oclicd_cmd = f"echo {dep_install_root}/x64/{item} | sudo tee /etc/OpenCL/vendors/intel_fpgaemu.icd"
+                    oclicd_cmd = f"echo {dep_install_root}/x64/{item} | tee {install_dir}/etc/OpenCL/vendors/intel_fpgaemu.icd"
                     run_cmd(oclicd_cmd, dry_run=False, ignore_error=True)
                     break
 
         if dep == "oclcpu":
             for item in os.listdir(f"{dep_install_root}/x64"):
                 if item.endswith(".so") and "libintelocl" in item:
-                    oclicd_cmd = f"echo {dep_install_root}/x64/{item} | sudo tee /etc/OpenCL/vendors/intel_oclcpu.icd"
+                    oclicd_cmd = f"echo {dep_install_root}/x64/{item} | tee {install_dir}/etc/OpenCL/vendors/intel_oclcpu.icd"
                     run_cmd(oclicd_cmd, dry_run=False, ignore_error=True)
                     break
 
@@ -93,6 +93,6 @@ if __name__ == "__main__":
     run_cmd(permissions_cmd, dry_run=False, ignore_error=True)
 
     link_ocl_vendors_cmd = (
-        "ln -sf /etc/OpenCL/vendors/* $CONDA_PREFIX/etc/OpenCL/vendors"
+        f"ln -sf {install_dir}/etc/OpenCL/vendors/* $CONDA_PREFIX/etc/OpenCL/vendors"
     )
     run_cmd(link_ocl_vendors_cmd, dry_run=False, ignore_error=True)
