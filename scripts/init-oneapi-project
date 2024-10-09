@@ -11,13 +11,15 @@ pixi init "$project_dir"
 
 cd "$project_dir" || exit
 
-pixi add cuda-libraries-dev cuda-nvcc cuda-nvtx cuda-cupti ocl-icd ocl-icd-system
+pixi add cuda-libraries-dev cuda-nvcc cuda-nvtx cuda-cupti ocl-icd ocl-icd-system python
+pixi add --pypi cmake-init
 
 oneapi_dir=$(cwd=$PWD && cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd && cd "$cwd" || exit)/..
 
-pixi run "ln -sf $oneapi_dir/etc/OpenCL/vendors/* $CONDA_PREFIX/etc/OpenCL/vendors"
+ln -sf $oneapi_dir/etc/OpenCL/vendors/* $PWD/.pixi/envs/default/etc/OpenCL/vendors
+pixi run cmake-init
 
-echo "source $oneapi_dir/setvars.sh" | tee $project_dir/env.sh
+echo "source $oneapi_dir/setvars.sh" >env.sh
 
-echo "\n[activation]" | tee -a $project_dir/pixi.toml
-echo "scripts = [ \"env.sh\" ]" | tee -a $project_dir/pixi.toml
+printf '\n[activation]\n' >>pixi.toml
+echo "scripts = [ \"env.sh\" ]" >>pixi.toml

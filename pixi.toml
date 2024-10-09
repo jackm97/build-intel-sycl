@@ -33,18 +33,17 @@ scripts = ["sycl_env.sh"]
 scripts = ["mkl_env.sh"]
 
 [feature.onemkl.dependencies]
-mkl = ">=2024.2.2,<2025"
-mkl-devel = ">=2024.2.2,<2025"
+mkl-dpcpp = ">=2024.2.2,<2025"
+mkl-devel-dpcpp = ">=2024.2.2,<2025"
 
 [environments]
 onemkl = ["onemkl"]
 sycl = ["sycl"]
 
 [dependencies]
-cmake = ">=3.30.4,<4"
-python = ">=3.12.6,<4"
+cmake = ">=3.30.5,<4"
+python = ">=3.11.9,<4"
 ninja = ">=1.12.1,<2"
-ocl-icd = ">=2.3.2,<3"
 ocl-icd-system = ">=1.0.0,<2"
 wget = ">=1.21.4,<2"
 git = ">=2.46.2,<3"

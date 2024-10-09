@@ -2,15 +2,15 @@
 
 set -e
 
-sudo mkdir -p $SYCL_INSTALL_PREFIX
-sudo chown $USER -R $SYCL_INSTALL_PREFIX
+sudo mkdir -p "$SYCL_INSTALL_PREFIX"
+sudo chown "$USER" -R "$SYCL_INSTALL_PREFIX"
 
-rm -rf $SYCL_INSTALL_PREFIX/setvars.sh
-touch $SYCL_INSTALL_PREFIX/setvars.sh
+rm -rf "$SYCL_INSTALL_PREFIX"/setvars.sh
+touch "$SYCL_INSTALL_PREFIX"/setvars.sh
 
 script_dir_string='oneapi_dir=$(cwd=$PWD && cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd && cd $cwd)'
-echo "#!/bin/bash" | tee $SYCL_INSTALL_PREFIX/setvars.sh
-echo $script_dir_string | tee -a $SYCL_INSTALL_PREFIX/setvars.sh
+echo "#!/bin/bash" | tee "$SYCL_INSTALL_PREFIX"/setvars.sh
+echo "$script_dir_string" | tee -a $SYCL_INSTALL_PREFIX/setvars.sh
 
 # unset PIXI_ENVIRONMENT_NAME
 # rm -rf $SYCL_INSTALL_PREFIX/pixi.*
@@ -22,5 +22,9 @@ echo $script_dir_string | tee -a $SYCL_INSTALL_PREFIX/setvars.sh
 
 echo 'export PATH=$oneapi_dir/bin:$PATH' | tee -a "$SYCL_INSTALL_PREFIX"/setvars.sh
 echo 'export LD_LIBRARY_PATH=$oneapi_dir/lib:$LD_LIBRARY_PATH' | tee -a "$SYCL_INSTALL_PREFIX"/setvars.sh
+echo 'export CMAKE_PREFIX_PATH=$oneapi_dir:$CMAKE_PREFIX_PATH'
 
 find "$PIXI_PROJECT_ROOT"/scripts -name "*.sh" -type f -print0 | xargs -0 chmod +x
+
+mkdir -p "$SYCL_INSTALL_PREFIX"/bin
+cp "$PIXI_PROJECT_ROOT"/scripts/init-oneapi-project "$SYCL_INSTALL_PREFIX"/bin
