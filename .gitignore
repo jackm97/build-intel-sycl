@@ -1,0 +1,14 @@
+# pixi environments
+.pixi
+*.egg-info
+deps
+intel/oneapi
+llvm
+onemkl/
+!recipes/onemkl
+intel/sysroot
+
+# pixi environments
+.pixi
+*.egg-info
+pixi.toml.bak
