@@ -10,6 +10,7 @@ for var in $CMAKE_ARGS; do
 done
 # echo "$extra_opts"
 
+find "$PIXI_PROJECT_ROOT/llvm/build" -name CMakeCache.txt -exec rm {} ';'
 cp "$PIXI_PROJECT_ROOT"/recipes/dpcpp/SYCLLibdevice.cmake "$PIXI_PROJECT_ROOT"/llvm/libdevice/cmake/modules
 
 python "$DPCPP_HOME"/llvm/buildbot/configure.py \
