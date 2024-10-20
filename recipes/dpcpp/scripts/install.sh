@@ -18,9 +18,6 @@ cmake --build "$DPCPP_HOME"/llvm/build --target install
 sudo chown -R $USER $DPCPP_ROOT
 
 mkdir -p "$DPCPP_ROOT"/scripts
-cp "$PIXI_PROJECT_ROOT"/recipes/dpcpp/files/setvars.sh "$DPCPP_ROOT"/scripts
-find "$DPCPP_ROOT"/scripts -name "*.sh" -type f -print0 | xargs -0 chmod +x
-
-mkdir -p "$DPCPP_ROOT"/bin
-cp "$PIXI_PROJECT_ROOT"/recipes/dpcpp/files/init-oneapi-project "$DPCPP_ROOT"/bin
-chmod +x "$DPCPP_ROOT"/bin/init-oneapi-project
+cd "$PIXI_PROJECT_ROOT"/recipes/dpcpp/files
+cp -r ./* "$DPCPP_ROOT"
+find bin/ -type f -exec chmod +x "$DPCPP_ROOT"/{} ";"
