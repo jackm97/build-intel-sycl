@@ -1,6 +1,6 @@
 [project]
 authors = ["Jack Myers <jack.myers@intel.com>"]
-channels = ["conda-forge"]
+channels = ["https://software.repos.intel.com/python/conda/", "conda-forge"]
 description = "Add a short description here"
 name = "build-intel-sycl"
 platforms = ["linux-64"]
@@ -19,7 +19,7 @@ wget = ">=1.21.4,<2"
 git = ">=2.47.0,<3"
 lld = ">=19.1.2,<20"
 c-compiler = ">=1.8.0,<2"
-cxx-compiler = ">=1.8.0,<2"
+clangxx_linux-64 = ">=18,<19"
 ccache = ">=4.10.1,<5"
 pkg-config = ">=0.29.2,<0.30"
 cuda = ">=12.6.2,<13"
@@ -27,7 +27,7 @@ ocl-icd = ">=2.3.2,<3"
 ocl-icd-system = ">=1.0.0,<2"
 
 [host-dependencies]
-libstdcxx-devel_linux-64 = ">=13.3.0,<14"
+clangxx_linux-64 = ">=18,<19"
 pkg-config = ">=0.29.2,<0.30"
 cuda = ">=12.6.2,<13"
 sysroot_linux-64 = ">=2.28"
@@ -36,7 +36,7 @@ ocl-icd-system = ">=1.0.0,<2"
 
 [dependencies]
 python = ">=3.11.9,<4"
-libstdcxx-devel_linux-64 = ">=13.3.0,<14"
+clangxx_linux-64 = ">=18,<19"
 pkg-config = ">=0.29.2,<0.30"
 cuda = ">=12.6.2,<13"
 sysroot_linux-64 = ">=2.28"
@@ -69,11 +69,8 @@ install = { cmd = "./recipes/onemkl/scripts/install_mkl.sh", depends-on = [
 [feature.dpcpp-build.tasks]
 setup = "bash ./recipes/dpcpp/scripts/setup.sh"
 clone = { cmd = "./recipes/dpcpp/scripts/clone.sh", depends-on = ["setup"] }
-intel-runtimes = { cmd = "python ./recipes/dpcpp/scripts/download_intel_runtimes.py", depends-on = [
-  "clone",
-] }
 configure = { cmd = "./recipes/dpcpp/scripts/configure.sh", depends-on = [
-  "intel-runtimes",
+  "clone",
 ] }
 build = { cmd = "./recipes/dpcpp/scripts/build.sh", depends-on = ["configure"] }
 install = { cmd = "./recipes/dpcpp/scripts/install.sh", depends-on = ["build"] }

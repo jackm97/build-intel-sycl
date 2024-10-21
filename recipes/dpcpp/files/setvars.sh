@@ -3,7 +3,7 @@
 set -e
 
 function setup_dpcpp() {
-  if [ -z "$ONEMKL_LIB_DIRS" ]; then
+  if [ -z "$DPCPP_LIB_DIRS" ]; then
     export PATH="$DPCPP_ROOT/bin:$PATH"
     export DPCPP_LIB_DIRS="$DPCPP_ROOT/lib:$DPCPP_ROOT/lib64"
 
@@ -40,91 +40,58 @@ function setup_onemkl() {
   fi
 }
 
-function setup_ocl() {
-  if [ -z "$TBB_LIBS" ]; then
-    if [ -d "$DPCPP_ROOT"/tbb ]; then
-      tbb_libs=$(ls "$DPCPP_ROOT"/tbb)
-      tbb_libs=$DPCPP_ROOT/tbb/$tbb_libs/lib/intel64
-      tbb_libs=$tbb_libs/$(ls "$tbb_libs")
-      export DPCPP_OCL_DIRS=$DPCPP_ROOT/opencl/runtime/linux/oclcpu/x64
-      export DPCPP_OCL_DIRS=$DPCPP_ROOT/opencl/runtime/linux/oclfpgaemu/x64:$DPCPP_OCL_DIRS
-      export TBB_LIBS=$tbb_libs
-    fi
-
-    for path in ${TBB_LIBS//:/ }; do
-      link_path_flags="-L $path $link_path_flags"
-    done
-    for path in ${DPCPP_OCL_DIRS//:/ }; do
-      link_path_flags="-L $path $link_path_flags"
-    done
-    export DPCPP_OCL_LDFLAGS="$link_path_flags"
-
-    if [ "$DPCPP_SKIP_LD_PATH" != "1" ]; then
-      export LD_LIBRARY_PATH=$tbb_libs:$LD_LIBRARY_PATH
-      export LD_LIBRARY_PATH=$DPCPP_ROOT/opencl/runtime/linux/oclcpu/x64:$LD_LIBRARY_PATH
-      export LD_LIBRARY_PATH=$DPCPP_ROOT/opencl/runtime/linux/oclfpgaemu/x64:$LD_LIBRARY_PATH
-    fi
-  fi
-}
-
 function setup_conda() {
   if [ "$DPCPP_CONDA_SETUP_DONE" != "1" ]; then
     export CUDA_ROOT="$CONDA_PREFIX/targets/x86_64-linux"
     export CUDA_LIB_PATH="$CUDA_ROOT"/lib/stubs
 
-    GCC_VERSION=$(ls "$CONDA_PREFIX"/lib/gcc/"$BUILD")
+    GCC_VERSION=$(ls "$CONDA_PREFIX"/lib/gcc/"$HOST")
     export GCC_VERSION=$GCC_VERSION
-    export STDCXX_INC_DIR="$CONDA_PREFIX/lib/gcc/$BUILD/$GCC_VERSION/include/c++"
+    export STDCXX_INC_DIR="$CONDA_PREFIX/lib/gcc/$HOST/$GCC_VERSION/include/c++"
     GCC_TOOLCHAIN="$CONDA_PREFIX"
     export GCC_TOOLCHAIN=$GCC_TOOLCHAIN
-    export DPCPP_GCC_TOOLCHAIN_CXXFLAGS="--gcc-toolchain=$GCC_TOOLCHAIN --gcc-triple=$BUILD -isystem $STDCXX_INC_DIR -isystem $STDCXX_INC_DIR/$BUILD"
-    export CMAKE_PREFIX_PATH="$DPCPP_ROOT/tbb/oneapi-tbb-2021.12.0:$CMAKE_PREFIX_PATH"
+    export DPCPP_GCC_TOOLCHAIN_CXXFLAGS="--sysroot $CONDA_BUILD_SYSROOT --gcc-toolchain=$GCC_TOOLCHAIN --gcc-triple=$HOST -isystem $STDCXX_INC_DIR -isystem $STDCXX_INC_DIR/$HOST"
     export CMAKE_ARGS="-DCUDAToolkit_ROOT=$CUDA_ROOT -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_ROOT -DCMAKE_SYSROOT=$CONDA_BUILD_SYSROOT $CMAKE_ARGS"
 
-    export C_COMPILER=$CC
-    export CXX_COMPILER=$CXX
-    export CXXFLAGS=$CXXFLAGS
-    export CFLAGS=$CFLAGS
+    unset CXXFLAGS
+    unset CPPFLAGS
+    unset CFLAGS
+    . "$CONDA_PREFIX/etc/conda/activate.d/activate-gcc_linux-64.sh"
+    . "$CONDA_PREFIX/etc/conda/activate.d/activate-gxx_linux-64.sh"
 
-    ocl_icd_vendors=$OCL_ICD_VENDORS
-    if [ -f "$CONDA_PREFIX"/etc/conda/deactivate.d/deactivate-opencl-rt.sh ]; then
-      source "$CONDA_PREFIX"/etc/conda/deactivate.d/deactivate-opencl-rt.sh
-    fi
-    export OCL_ICD_VENDORS=$CONDA_PREFIX/etc/dpcpp/OpenCL/vendors/
-    mkdir -p "$OCL_ICD_VENDORS"
-
-    if [ -d "$OCL_ICD_VENDORS" ]; then
-      if [ -d "$ocl_icd_vendors" ]; then
-        find "$ocl_icd_vendors" -name "*.icd" -print0 | xargs -I{} -0 ln -sf {} "$OCL_ICD_VENDORS"
-        rm -f "$OCL_ICD_VENDORS"/cuda.icd
-      fi
-      find /etc/OpenCL/vendors/ -name "*.icd" -print0 | xargs -I{} -0 ln -sf {} "$OCL_ICD_VENDORS"
-
-      if [ -d "$DPCPP_ROOT"/etc/OpenCL/vendors ]; then
-        find "$DPCPP_ROOT"/etc/OpenCL/vendors -name "*.icd" -print0 | xargs -I{} -0 ln -sf {} "$OCL_ICD_VENDORS"
-      fi
-    fi
-
-    export LDFLAGS="$DPCPP_OCL_LDFLAGS $LDFLAGS"
-
+    mkdir -p "$DPCPP_ROOT/bin"
+    config_cxxflags="$DPCPP_CXXFLAGS"
+    config_ldflags="$DPCPP_LDFLAGS"
     if [ "$COMPILING_ONEMKL" != "1" ]; then
       if [ "$COMPILING_DPCPP" != "1" ]; then
-        export CXXFLAGS="-isystem $ONEMKL_ROOT/include $CXXFLAGS"
-        export LDFLAGS="$ONEMKL_LDFLAGS $LDFLAGS"
-        export CMAKE_PREFIX_PATH="$ONEMKL_ROOT:$CMAKE_PREFIX_PATH"
+        config_ldflags="$config_ldflags $ONEMKL_LDFLAGS"
+        config_cxxflags="$config_cxxflags $ONEMKL_CXXFLAGS"
       fi
     fi
 
     if [ "$COMPILING_DPCPP" != "1" ]; then
-      export LDFLAGS="$DPCPP_LDFLAGS $LDFLAGS"
-      export CXX_COMPILER="$DPCPP_ROOT/bin/clang++"
-      export C_COMPILER="$DPCPP_ROOT/bin/clang"
-      export CXXFLAGS="$DPCPP_GCC_TOOLCHAIN_CXXFLAGS -isystem $DPCPP_ROOT/include $CXXFLAGS"
-      export CMAKE_PREFIX_PATH="$DPCPP_ROOT:$CMAKE_PREFIX_PATH"
+      ln -sf "$DPCPP_ROOT/bin/clang" "$DPCPP_ROOT/bin/$HOST-clang"
+      ln -sf "$DPCPP_ROOT/bin/clang++" "$DPCPP_ROOT/bin/$HOST-clang++"
+
+      export CC_FOR_BUILD="$DPCPP_ROOT/bin/$HOST-clang"
+      export CXX_FOR_BUILD="$DPCPP_ROOT/bin/$HOST-clang++"
     fi
 
-    export CXX="$CXX_COMPILER"
-    export CC="$C_COMPILER"
+    echo "$DPCPP_GCC_TOOLCHAIN_CXXFLAGS" >"$DPCPP_ROOT/bin/$HOST-clang.cfg"
+    echo "" >>"$DPCPP_ROOT/bin/$HOST-clang.cfg"
+    echo "$config_ldflags" >>"$DPCPP_ROOT/bin/$HOST-clang.cfg"
+    echo "$DPCPP_GCC_TOOLCHAIN_CXXFLAGS $config_cxxflags" >"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
+    echo "" >>"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
+    echo "\n$config_ldflags" >>"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
+
+    export C_COMPILER=$CC_FOR_BUILD
+    export CXX_COMPILER=$CXX_FOR_BUILD
+    export CC=$CC_FOR_BUILD
+    export CXX=$CXX_FOR_BUILD
+
+    if [ "$DPCPP_SKIP_LD_PATH" != "1" ]; then
+      export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$CUDA_LIB_PATH:$LD_LIBRARY_PATH"
+    fi
   fi
   export DPCPP_CONDA_SETUP_DONE="1"
 }
@@ -134,7 +101,8 @@ if [ -z "$DPCPP_ROOT" ]; then
   export DPCPP_ROOT=$oneapi_dir
 fi
 
-setup_ocl
+rm -f "$DPCPP_ROOT"/bin/*.cfg
+
 setup_dpcpp
 setup_onemkl
 if [ -n "$CONDA_PREFIX" ]; then
