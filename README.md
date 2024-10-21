@@ -1,11 +1,4 @@
-Here's an enhanced version of the ReadMe that focuses on improving clarity,
-readability, and structure while maintaining technical accuracy and flow. I've
-organized the sections more clearly, improved sentence structure, and removed
-redundant information where possible.
-
-______________________________________________________________________
-
-# Build Open-DPC++ in Two Commands
+# Build Open-DPC++ in Three Commands
 
 **Open-DPC++** is an open-source toolkit based on LLVM with SYCL support,
 designed as a counterpart to Intel's OneAPI DPC++. Building it, especially when
@@ -30,7 +23,7 @@ command.
 
 ## What's Included in the Toolkit?
 
-Open-DPC++ provides the following features:
+This installation provides the following features:
 
 - Support for Nvidia GPUs
 - Native CPU support
@@ -80,8 +73,9 @@ source ~/.bashrc
 Once `pixi` is installed, you can build Open-DPC++:
 
 ```bash
-# Uncomment and modify the following line if you want to change the default installation path
-# export DPCPP_ROOT=~/intel/dpcpp  
+# Uncomment and modify the following line if
+# you want to change the default installation path
+# export DPCPP_ROOT=~/intel/dpcpp
 pixi run --environment dpcpp-build install && pixi run --environment onemkl-build install
 ```
 
@@ -120,7 +114,7 @@ If your SYCL program depends on OneMKL, make sure to include the appropriate
 flags for successful compilation:
 
 ```bash
-clang++ -fsycl $ONEMKL_CXXFLAGS main.cpp $ONEMKL_LDFLAGS -o main
+clang++ -fsycl $ONEMKL_CXXFLAGS main.cpp -o main $ONEMKL_LDFLAGS -lonemkl
 ```
 
 ### Using in a Conda Environment
@@ -139,7 +133,7 @@ clang++ -fsycl $CXXFLAGS main.cpp -o main
 To compile with OneMKL support, use:
 
 ```bash
-clang++ -fsycl $CXXFLAGS main.cpp -o main $LDFLAGS -lonemkl  # Replace with static libraries if needed
+clang++ -fsycl $CXXFLAGS main.cpp -o main $LDFLAGS -lonemkl
 ```
 
 ______________________________________________________________________
