@@ -19,6 +19,7 @@ wget = ">=1.21.4,<2"
 git = ">=2.47.0,<3"
 lld = ">=19.1.2,<20"
 c-compiler = ">=1.8.0,<2"
+clang_linux-64 = ">=18,<19"
 clangxx_linux-64 = ">=18,<19"
 ccache = ">=4.10.1,<5"
 pkg-config = ">=0.29.2,<0.30"
@@ -36,12 +37,15 @@ ocl-icd-system = ">=1.0.0,<2"
 
 [dependencies]
 python = ">=3.11.9,<4"
+clang_linux-64 = ">=18,<19"
 clangxx_linux-64 = ">=18,<19"
 pkg-config = ">=0.29.2,<0.30"
 cuda = ">=12.6.2,<13"
 sysroot_linux-64 = ">=2.28"
 ocl-icd = ">=2.3.2,<3"
 ocl-icd-system = ">=1.0.0,<2"
+intel-opencl-rt = ">=2024.2.1,<2025"
+intel-fortran-rt = ">=2024.2.1,<2025"
 
 [activation]
 scripts = ["env.sh"]

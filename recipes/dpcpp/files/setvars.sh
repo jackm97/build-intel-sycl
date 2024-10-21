@@ -82,7 +82,7 @@ function setup_conda() {
     echo "$config_ldflags" >>"$DPCPP_ROOT/bin/$HOST-clang.cfg"
     echo "$DPCPP_GCC_TOOLCHAIN_CXXFLAGS $config_cxxflags" >"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
     echo "" >>"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
-    echo "\n$config_ldflags" >>"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
+    echo "$config_ldflags -L$CUDA_LIB_PATH -L$CONDA_PREFIX/lib -L$CONDA_BUILD_SYSROOT/lib -L$CONDA_BUILD_SYSROOT/lib64" >>"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
 
     export C_COMPILER=$CC_FOR_BUILD
     export CXX_COMPILER=$CXX_FOR_BUILD
@@ -90,7 +90,7 @@ function setup_conda() {
     export CXX=$CXX_FOR_BUILD
 
     if [ "$DPCPP_SKIP_LD_PATH" != "1" ]; then
-      export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$CUDA_LIB_PATH:$LD_LIBRARY_PATH"
+      export LD_LIBRARY_PATH="$DPCPP_LIB_DIRS:$ONEMKL_LIB_DIRS:$CONDA_PREFIX/lib:$CUDA_LIB_PATH:$LD_LIBRARY_PATH"
     fi
   fi
   export DPCPP_CONDA_SETUP_DONE="1"
