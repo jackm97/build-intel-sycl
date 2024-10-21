@@ -25,6 +25,15 @@ if __name__ == "__main__":
                     continue
                 all_deps.add(dep)
 
+        non_feature_deps = ["dependencies", "host-dependencies", "build-dependencies"]
+        for dep_spec in non_feature_deps:
+            for dep in config.get(dep_spec, {}):
+                dep: str
+                if "sysroot" in dep:
+                    continue
+                all_deps.add(dep)
+
+
         os.system(f"pixi add {' '.join(all_deps)}")
 
         with open("pixi.toml", "rb") as f:
@@ -37,6 +46,14 @@ if __name__ == "__main__":
                 Table, feature_table.get("dependencies", tomlkit.table())
             )
             for dep in fconfig.get("dependencies", {}):
+                dep: str
+                if "sysroot" in dep:
+                    continue
+                deps_table[dep] = updated_deps[dep]
+
+        for dep_spec in non_feature_deps:
+            deps_table: Table = cast(Table, config_all[dep_spec])
+            for dep in config.get(dep_spec, {}):
                 dep: str
                 if "sysroot" in dep:
                     continue
