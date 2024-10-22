@@ -40,6 +40,25 @@ function setup_onemkl() {
   fi
 }
 
+function populate_compiler_cfg() {
+  mkdir -p "$DPCPP_ROOT/bin"
+  config_cxxflags="$DPCPP_CXXFLAGS"
+  config_ldflags="$DPCPP_LDFLAGS"
+  if [ "$COMPILING_ONEMKL" != "1" ]; then
+    if [ "$COMPILING_DPCPP" != "1" ]; then
+      config_ldflags="$config_ldflags $ONEMKL_LDFLAGS"
+      config_cxxflags="$config_cxxflags $ONEMKL_CXXFLAGS"
+    fi
+  fi
+
+  echo "$config_cxxflags" >"$DPCPP_ROOT/bin/clang.cfg"
+  echo "" >>"$DPCPP_ROOT/bin/clang.cfg"
+  echo "$config_ldflags" >>"$DPCPP_ROOT/bin/clang.cfg"
+  echo "$config_cxxflags" >"$DPCPP_ROOT/bin/clang++.cfg"
+  echo "" >>"$DPCPP_ROOT/bin/clang++.cfg"
+  echo "$config_ldflags" >>"$DPCPP_ROOT/bin/clang++.cfg"
+}
+
 function setup_conda() {
   if [ "$DPCPP_CONDA_SETUP_DONE" != "1" ]; then
     export CUDA_ROOT="$CONDA_PREFIX/targets/x86_64-linux"
@@ -77,10 +96,10 @@ function setup_conda() {
       export CXX_FOR_BUILD="$DPCPP_ROOT/bin/$HOST-clang++"
     fi
 
-    echo "$DPCPP_GCC_TOOLCHAIN_CXXFLAGS" >"$DPCPP_ROOT/bin/$HOST-clang.cfg"
+    echo "$DPCPP_GCC_TOOLCHAIN_CXXFLAGS $config_cxxflags -isystem $CONDA_PREFIX/include" >"$DPCPP_ROOT/bin/$HOST-clang.cfg"
     echo "" >>"$DPCPP_ROOT/bin/$HOST-clang.cfg"
     echo "$config_ldflags" >>"$DPCPP_ROOT/bin/$HOST-clang.cfg"
-    echo "$DPCPP_GCC_TOOLCHAIN_CXXFLAGS $config_cxxflags" >"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
+    echo "$DPCPP_GCC_TOOLCHAIN_CXXFLAGS $config_cxxflags -isystem $CONDA_PREFIX/include" >"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
     echo "" >>"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
     echo "$config_ldflags -L$CUDA_LIB_PATH -L$CONDA_PREFIX/lib -L$CONDA_BUILD_SYSROOT/lib -L$CONDA_BUILD_SYSROOT/lib64" >>"$DPCPP_ROOT/bin/$HOST-clang++.cfg"
 
@@ -107,4 +126,6 @@ setup_dpcpp
 setup_onemkl
 if [ -n "$CONDA_PREFIX" ]; then
   setup_conda
+else
+  populate_compiler_cfg
 fi
