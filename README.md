@@ -108,8 +108,9 @@ source "$DPCPP_ROOT/setvars.sh"
 clang++ -fsycl $DPCPP_CXXFLAGS main.cpp $DPCPP_LDFLAGS -o main
 ```
 
-The flags are not required for successful compilation, however, since activation script
-creates a Clang configuration file that automatically applies the appropriate flags.
+The flags are not required for successful compilation, however, since activation
+script creates a Clang configuration file that automatically applies the
+appropriate flags.
 
 ### Using OneMKL
 
@@ -123,7 +124,8 @@ clang++ -fsycl main.cpp -o main -lonemkl
 
 When using Open-DPC++ within a Conda environment, ensure the Conda environment
 is activated before activating Open-DPC++. The required compilation and linking
-flags will be automatically set via the activation script in a configuration file.
+flags will be automatically set via the activation script in a configuration
+file.
 
 Compiling is same as before, except we need to use the correct target-specific
 compiler for the configuration file to take effect correctly.
@@ -140,11 +142,17 @@ $CXX -fsycl $CXXFLAGS main.cpp -o main -lonemkl
 The variable `$CXX` expands to `$DPCPP_ROOT/x86_64-conda-linux-gnu-clang++` and $CC expands similarly.
 ```
 
-While not strictly necessary, the conda compiler packages set some useful environment variables for defining optimal compiler behavior.
-These are `$CXXFLAGS`, `$CFLAGS` and `$LDFLAGS`. For example, `$CXXFLAGS` at the time of writing expands to:
+While not strictly necessary, the conda compiler packages set some useful
+environment variables for defining optimal compiler behavior. These are
+`$CXXFLAGS`, `$CFLAGS` and `$LDFLAGS`. For example, `$CXXFLAGS` at the time of
+writing expands to:
 
 ```bash
 -fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem $CONDA_PREFIX/include
 ```
 
-While the `-isystem` flag is already handled by the configuration file, the others add a good balance of optimizations, security and support on a wide range of platforms.
+While the `-isystem` flag is already handled by the configuration file, the
+others add a good balance of optimizations, security and support for a wide
+range of platforms. When using `cmake`, these flags will be captured
+automatically, unless `CMAKE_CXX_FLAGS` or similarly related options are
+populated.
