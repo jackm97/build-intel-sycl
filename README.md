@@ -108,36 +108,43 @@ source "$DPCPP_ROOT/setvars.sh"
 clang++ -fsycl $DPCPP_CXXFLAGS main.cpp $DPCPP_LDFLAGS -o main
 ```
 
+The flags are not required for successful compilation, however, since activation script
+creates a Clang configuration file that automatically applies the appropriate flags.
+
 ### Using OneMKL
 
-If your SYCL program depends on OneMKL, make sure to include the appropriate
-flags for successful compilation:
+Compiling with OneMKL is simple as:
 
 ```bash
-clang++ -fsycl $ONEMKL_CXXFLAGS main.cpp -o main $ONEMKL_LDFLAGS -lonemkl
+clang++ -fsycl main.cpp -o main -lonemkl
 ```
 
 ### Using in a Conda Environment
 
 When using Open-DPC++ within a Conda environment, ensure the Conda environment
 is activated before activating Open-DPC++. The required compilation and linking
-flags will be automatically set via the activation script.
+flags will be automatically set via the activation script in a configuration file.
 
-For example, compiling `main.cpp` using the DPC++ toolchain would look like
-this:
+Compiling is same as before, except we need to use the correct target-specific
+compiler for the configuration file to take effect correctly.
 
 ```bash
-clang++ -fsycl $CXXFLAGS main.cpp -o main
+$CXX -fsycl $CXXFLAGS main.cpp -o main
 ```
 
 To compile with OneMKL support, use:
 
 ```bash
-clang++ -fsycl $CXXFLAGS main.cpp -o main $LDFLAGS -lonemkl
+$CXX -fsycl $CXXFLAGS main.cpp -o main -lonemkl
+
+The variable `$CXX` expands to `$DPCPP_ROOT/x86_64-conda-linux-gnu-clang++` and $CC expands similarly.
 ```
 
-______________________________________________________________________
+While not strictly necessary, the conda compiler packages set some useful environment variables for defining optimal compiler behavior.
+These are `$CXXFLAGS`, `$CFLAGS` and `$LDFLAGS`. For example, `$CXXFLAGS` at the time of writing expands to:
 
-This improved ReadMe emphasizes clarity and reduces verbosity while keeping all
-the necessary technical details. It uses consistent formatting and section flow
-for easier navigation.
+```bash
+-fvisibility-inlines-hidden -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem $CONDA_PREFIX/include
+```
+
+While the `-isystem` flag is already handled by the configuration file, the others add a good balance of optimizations, security and support on a wide range of platforms.
