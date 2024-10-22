@@ -155,4 +155,16 @@ While the `-isystem` flag is already handled by the configuration file, the
 others add a good balance of optimizations, security and support for a wide
 range of platforms. When using `cmake`, these flags will be captured
 automatically, unless `CMAKE_CXX_FLAGS` or similarly related options are
-populated.
+populated. An example `cmake` call might look like:
+
+```bash
+mkdir -p build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$CXXFLAGS -anotherflag -onemoreflag"
+```
+
+#### Runtime Dependencies
+
+Finally, ensure that your `conda` environment has the dependencies listed under
+`[dependencies]` in `pixi.toml`. While not all are necessary, such as the OpenCL
+runtimes, they will ensure your environment can run on a range of hardware.

@@ -94,6 +94,8 @@ function setup_conda() {
 
       export CC_FOR_BUILD="$DPCPP_ROOT/bin/$HOST-clang"
       export CXX_FOR_BUILD="$DPCPP_ROOT/bin/$HOST-clang++"
+      export CCFLAGS="--config $DPCPP_ROOT/bin/$HOST-clang.cfg $CXXFLAGS"
+      export CXXFLAGS="--config $DPCPP_ROOT/bin/$HOST-clang++.cfg $CXXFLAGS"
     fi
 
     echo "$DPCPP_GCC_TOOLCHAIN_CXXFLAGS $config_cxxflags -isystem $CONDA_PREFIX/include" >"$DPCPP_ROOT/bin/$HOST-clang.cfg"
