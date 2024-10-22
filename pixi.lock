@@ -22,6 +22,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang_linux-64-18-ha9a0a97_9.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clangxx-18.1.8-default_h3d5eb1d_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clangxx_linux-64-18-ha9a0a97_9.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clinfo-3.0.21.02.21-h7f98852_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/compiler-rt-18.1.8-h84d6215_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/compiler-rt_linux-64-18.1.8-hff21bea_1.conda
@@ -95,6 +96,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx_impl_linux-64-13.2.0-h2a599c4_13.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx_linux-64-13.2.0-h4ebd915_9.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/icu-75.1-he02047a_0.conda
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lib-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lib-ur-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lic-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-fortran-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-opencl-fpga-emu-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-opencl-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-openmp-2024.2.1-intel_1079.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/kernel-headers_linux-64-4.18.0-he073ed8_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/keyutils-1.6.1-h166bdaf_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/krb5-1.21.3-h659f571_0.conda
@@ -177,6 +185,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/readline-8.2-h8228510_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/rhash-1.4.5-hb9d3cd8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.28-he073ed8_3.conda
+      - conda: https://software.repos.intel.com/python/conda/linux-64/tbb-2021.13.1-intel_12.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/tk-8.6.13-noxft_h4845f30_101.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2024b-hc8b5060_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/wayland-1.23.1-h3e06ad9_0.conda
@@ -227,6 +236,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang_linux-64-18-ha9a0a97_9.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clangxx-18.1.8-default_h3d5eb1d_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clangxx_linux-64-18-ha9a0a97_9.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clinfo-3.0.21.02.21-h7f98852_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/compiler-rt-18.1.8-h84d6215_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/compiler-rt_linux-64-18.1.8-hff21bea_1.conda
@@ -300,6 +310,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx_impl_linux-64-13.2.0-h2a599c4_13.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx_linux-64-13.2.0-h4ebd915_9.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/icu-75.1-he02047a_0.conda
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lib-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lib-ur-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lic-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-fortran-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-opencl-fpga-emu-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-opencl-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-openmp-2024.2.1-intel_1079.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/kernel-headers_linux-64-4.18.0-he073ed8_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/keyutils-1.6.1-h166bdaf_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/krb5-1.21.3-h659f571_0.conda
@@ -382,6 +399,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/readline-8.2-h8228510_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/rhash-1.4.5-hb9d3cd8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.28-he073ed8_3.conda
+      - conda: https://software.repos.intel.com/python/conda/linux-64/tbb-2021.13.1-intel_12.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/tk-8.6.13-noxft_h4845f30_101.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2024b-hc8b5060_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/wayland-1.23.1-h3e06ad9_0.conda
@@ -432,6 +450,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang_linux-64-18-ha9a0a97_9.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clangxx-18.1.8-default_h3d5eb1d_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clangxx_linux-64-18-ha9a0a97_9.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clinfo-3.0.21.02.21-h7f98852_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/compiler-rt-18.1.8-h84d6215_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/compiler-rt_linux-64-18.1.8-hff21bea_1.conda
@@ -505,6 +524,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx_impl_linux-64-13.2.0-h2a599c4_13.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx_linux-64-13.2.0-h4ebd915_9.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/icu-75.1-he02047a_0.conda
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lib-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lib-ur-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lic-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-fortran-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-opencl-fpga-emu-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-opencl-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-openmp-2024.2.1-intel_1079.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/kernel-headers_linux-64-4.18.0-he073ed8_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/keyutils-1.6.1-h166bdaf_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/krb5-1.21.3-h659f571_0.conda
@@ -587,6 +613,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/readline-8.2-h8228510_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/rhash-1.4.5-hb9d3cd8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.28-he073ed8_3.conda
+      - conda: https://software.repos.intel.com/python/conda/linux-64/tbb-2021.13.1-intel_12.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/tk-8.6.13-noxft_h4845f30_101.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2024b-hc8b5060_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/wayland-1.23.1-h3e06ad9_0.conda
@@ -637,6 +664,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang_linux-64-18-ha9a0a97_9.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clangxx-18.1.8-default_h3d5eb1d_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clangxx_linux-64-18-ha9a0a97_9.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clinfo-3.0.21.02.21-h7f98852_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/compiler-rt-18.1.8-h84d6215_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/compiler-rt_linux-64-18.1.8-hff21bea_1.conda
@@ -710,6 +738,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx_impl_linux-64-13.2.0-h2a599c4_13.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx_linux-64-13.2.0-h4ebd915_9.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/icu-75.1-he02047a_0.conda
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lib-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lib-ur-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lic-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-fortran-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-opencl-fpga-emu-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-opencl-rt-2024.2.1-intel_1079.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/intel-openmp-2024.2.1-intel_1079.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/kernel-headers_linux-64-4.18.0-he073ed8_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/keyutils-1.6.1-h166bdaf_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/krb5-1.21.3-h659f571_0.conda
@@ -792,6 +827,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/readline-8.2-h8228510_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/rhash-1.4.5-hb9d3cd8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.28-he073ed8_3.conda
+      - conda: https://software.repos.intel.com/python/conda/linux-64/tbb-2021.13.1-intel_12.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/tk-8.6.13-noxft_h4845f30_101.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tomlkit-0.13.2-pyha770c72_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2024b-hc8b5060_0.conda
@@ -1082,6 +1118,21 @@ packages:
   license_family: BSD
   size: 29933
   timestamp: 1719005575606
+- kind: conda
+  name: clinfo
+  version: 3.0.21.02.21
+  build: h7f98852_0
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/clinfo-3.0.21.02.21-h7f98852_0.tar.bz2
+  sha256: 62ee590a185e4c67c9e119213272db72afdc8802d8ae4aaa2f021fc7498bb0e8
+  md5: ba3eda69c0401abd0e68f16d9f64acb0
+  depends:
+  - libgcc-ng >=9.3.0
+  - ocl-icd >=2.2.14,<3.0a0
+  license: CC0-1.0
+  license_family: CC
+  size: 60851
+  timestamp: 1615323198411
 - kind: conda
   name: cmake
   version: 3.30.5
@@ -2320,6 +2371,107 @@ packages:
   license_family: MIT
   size: 12129203
   timestamp: 1720853576813
+- kind: conda
+  name: intel-cmplr-lib-rt
+  version: 2024.2.1
+  build: intel_1079
+  build_number: 1079
+  subdir: linux-64
+  url: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lib-rt-2024.2.1-intel_1079.tar.bz2
+  sha256: b4262c8f228426ead2c6566ef18ad53e9c83b5c6b6408c2af255fcd3d98cf10f
+  md5: 1b854aa4ec139499654909861bb3800c
+  constrains:
+  - common_cmplr_lib_rt>=2021.3.0
+  license: Intel End User License Agreement for Developer Tools
+  size: 39953249
+  timestamp: 1722475550578
+- kind: conda
+  name: intel-cmplr-lib-ur
+  version: 2024.2.1
+  build: intel_1079
+  build_number: 1079
+  subdir: linux-64
+  url: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lib-ur-2024.2.1-intel_1079.tar.bz2
+  sha256: d0abdbc25b665594dfc585f948f1278eca965f30b89b474329ff0375f3c390b1
+  md5: 995485cd5e89c278d14e2741b4715876
+  license: Intel End User License Agreement for Developer Tools
+  size: 2486107
+  timestamp: 1722474685707
+- kind: conda
+  name: intel-cmplr-lic-rt
+  version: 2024.2.1
+  build: intel_1079
+  build_number: 1079
+  subdir: linux-64
+  url: https://software.repos.intel.com/python/conda/linux-64/intel-cmplr-lic-rt-2024.2.1-intel_1079.tar.bz2
+  sha256: 823fb3fe40fdef28e9a4ed8d7aea212ba82574b36eeb0377fa6cf8fc436c2184
+  md5: ab36eab76e4f077c211eea1b1fa80840
+  constrains:
+  - common_cmplr_lic_rt>=2021.3.0
+  license: Intel End User License Agreement for Developer Tools
+  size: 24989
+  timestamp: 1722475374998
+- kind: conda
+  name: intel-fortran-rt
+  version: 2024.2.1
+  build: intel_1079
+  build_number: 1079
+  subdir: linux-64
+  url: https://software.repos.intel.com/python/conda/linux-64/intel-fortran-rt-2024.2.1-intel_1079.tar.bz2
+  sha256: 4d74764b111b283e0e9039647212be0c5d166c0a3df37fce074a7dd520f8ec47
+  md5: 0918150e85b04f7dffb80af0aa24b121
+  depends:
+  - intel-cmplr-lib-rt 2024.2.1 intel_1079
+  - intel-cmplr-lic-rt 2024.2.1 intel_1079
+  - intel-openmp 2024.2.1 intel_1079
+  constrains:
+  - fortran_rt>=2021.3.0
+  license: Intel End User License Agreement for Developer Tools
+  size: 1088823
+  timestamp: 1722475912956
+- kind: conda
+  name: intel-opencl-fpga-emu-rt
+  version: 2024.2.1
+  build: intel_1079
+  build_number: 1079
+  subdir: linux-64
+  url: https://software.repos.intel.com/python/conda/linux-64/intel-opencl-fpga-emu-rt-2024.2.1-intel_1079.tar.bz2
+  sha256: d6fb3a0c6053682699337565b27e5846ecaf0001dbcf0d92ac52988b11ffc806
+  md5: c3216b383328468ba37abf7b9a4e15b0
+  license: Intel End User License Agreement for Developer Tools
+  size: 26093805
+  timestamp: 1722474722567
+- kind: conda
+  name: intel-opencl-rt
+  version: 2024.2.1
+  build: intel_1079
+  build_number: 1079
+  subdir: linux-64
+  url: https://software.repos.intel.com/python/conda/linux-64/intel-opencl-rt-2024.2.1-intel_1079.tar.bz2
+  sha256: 1cfb2421d215144f0843cbd6e279cc0df96f31c0ea56605b701e4ba8f429ee34
+  md5: 71f74a85160aa3fcfe03a32f9f03ab03
+  depends:
+  - intel-cmplr-lic-rt 2024.*
+  - tbb 2021.*
+  constrains:
+  - opencl_rt>=2021.3.0
+  license: Intel End User License Agreement for Developer Tools
+  size: 104710955
+  timestamp: 1722474800183
+- kind: conda
+  name: intel-openmp
+  version: 2024.2.1
+  build: intel_1079
+  build_number: 1079
+  subdir: linux-64
+  url: https://software.repos.intel.com/python/conda/linux-64/intel-openmp-2024.2.1-intel_1079.tar.bz2
+  sha256: e9fe4d67441ded9497033590d5662fcc833f694c20cdf1fd009a49cd480d02ec
+  md5: 221009e163868550a54db896b89f0e38
+  depends:
+  - intel-cmplr-lib-ur 2024.2.1 intel_1079
+  license: Intel End User License Agreement for Developer Tools
+  size: 26652599
+  timestamp: 1722473726243
 - kind: conda
   name: kernel-headers_linux-64
   version: 4.18.0
@@ -3743,6 +3895,18 @@ packages:
   license_family: GPL
   size: 25004929
   timestamp: 1727437669974
+- kind: conda
+  name: tbb
+  version: 2021.13.1
+  build: intel_12
+  build_number: 12
+  subdir: linux-64
+  url: https://software.repos.intel.com/python/conda/linux-64/tbb-2021.13.1-intel_12.tar.bz2
+  sha256: eacc00ee2442cfaf9efb1cd8ee227f76d24fc5a4a14853e328c0b4780f83dd41
+  md5: 3082041924ed90da0e9f7890a620fa15
+  license: Intel Simplified Software License
+  size: 1543179
+  timestamp: 1722473632273
 - kind: conda
   name: tk
   version: 8.6.13
