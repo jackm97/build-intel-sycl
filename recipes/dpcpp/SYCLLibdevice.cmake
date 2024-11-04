@@ -45,12 +45,8 @@ set(compile_opts
     -Wno-undefined-internal
     -sycl-std=2020)
 
-set(SYCL_LIBDEVICE_GCC_TOOLCHAIN
-    ""
-    CACHE PATH "Path to GCC installation")
-
 list(APPEND compile_opts "--sysroot=$ENV{CONDA_BUILD_SYSROOT}"
-     "--gcc-install-dir=$ENV{GCC_TOOLCHAIN}" $ENV{CXXFLAGS})
+     "--gcc-install-dir=$ENV{GCC_TOOLCHAIN}")
 
 if(WIN32)
   list(APPEND compile_opts -D_ALLOW_RUNTIME_LIBRARY_MISMATCH)
@@ -71,17 +67,18 @@ endforeach()
 # Additional compilation options are needed for compiling each device library.
 set(devicelib_arch)
 if("NVPTX" IN_LIST LLVM_TARGETS_TO_BUILD)
-  list(APPEND devicelib_arch cuda)
-  set(compile_opts_cuda
+  list(APPEND devicelib_arch nvptx64-nvidia-cuda)
+  set(compile_opts_nvptx64-nvidia-cuda
       "-fsycl-targets=nvptx64-nvidia-cuda" "-Xsycl-target-backend"
       "--cuda-gpu-arch=sm_50" "-nocudalib")
-  set(opt_flags_cuda "-O3" "--nvvm-reflect-enable=false")
+  set(opt_flags_nvptx64-nvidia-cuda "-O3" "--nvvm-reflect-enable=false")
 endif()
 if("AMDGPU" IN_LIST LLVM_TARGETS_TO_BUILD)
-  list(APPEND devicelib_arch amd)
-  set(compile_opts_amd "-nogpulib" "-fsycl-targets=amdgcn-amd-amdhsa"
-                       "-Xsycl-target-backend" "--offload-arch=gfx940")
-  set(opt_flags_amd "-O3" "--amdgpu-oclc-reflect-enable=false")
+  list(APPEND devicelib_arch amdgcn-amd-amdhsa)
+  set(compile_opts_amdgcn-amd-amdhsa
+      "-nogpulib" "-fsycl-targets=amdgcn-amd-amdhsa" "-Xsycl-target-backend"
+      "--offload-arch=gfx940")
+  set(opt_flags_amdgcn-amd-amdhsa "-O3" "--amdgpu-oclc-reflect-enable=false")
 endif()
 
 set(spv_device_compile_opts -fsycl-device-only -fsycl-device-obj=spirv)
@@ -103,14 +100,30 @@ set(obj_device_compile_opts -fsycl -c ${sycl_targets_opt})
 # Depends on the clang target for compiling.
 function(compile_lib filename)
   cmake_parse_arguments(ARG "" "FILETYPE" "SRC;EXTRA_OPTS;DEPENDENCIES" ${ARGN})
+  set(compile_opt_list ${compile_opts} ${${ARG_FILETYPE}_device_compile_opts}
+                       ${ARG_EXTRA_OPTS})
+  compile_lib_ext(
+    ${filename}
+    FILETYPE
+    ${ARG_FILETYPE}
+    SRC
+    ${ARG_SRC}
+    DEPENDENCIES
+    ${ARG_DEPENDENCIES}
+    OPTS
+    ${compile_opt_list})
+endfunction()
+
+function(compile_lib_ext filename)
+  cmake_parse_arguments(ARG "" "FILETYPE" "SRC;OPTS;DEPENDENCIES" ${ARGN})
 
   set(devicelib-file
       ${${ARG_FILETYPE}_binary_dir}/${filename}.${${ARG_FILETYPE}-suffix})
 
   add_custom_command(
     OUTPUT ${devicelib-file}
-    COMMAND ${clang} ${compile_opts} ${ARG_EXTRA_OPTS}
-            ${CMAKE_CURRENT_SOURCE_DIR}/${ARG_SRC} -o ${devicelib-file}
+    COMMAND ${clang} ${ARG_OPTS} ${CMAKE_CURRENT_SOURCE_DIR}/${ARG_SRC} -o
+            ${devicelib-file}
     MAIN_DEPENDENCY ${ARG_SRC}
     DEPENDS ${ARG_DEPENDENCIES}
     VERBATIM)
@@ -165,7 +178,7 @@ function(add_devicelibs filename)
 
   foreach(arch IN LISTS devicelib_arch)
     compile_lib(
-      ${filename}--${arch}
+      ${filename}-${arch}
       FILETYPE
       bc
       SRC
@@ -177,7 +190,7 @@ function(add_devicelibs filename)
       ${bc_device_compile_opts}
       ${compile_opts_${arch}})
 
-    append_to_property(${bc_binary_dir}/${filename}--${arch}.bc PROPERTY_NAME
+    append_to_property(${bc_binary_dir}/${filename}-${arch}.bc PROPERTY_NAME
                        BC_DEVICE_LIBS_${arch})
   endforeach()
 endfunction()
@@ -196,12 +209,12 @@ set(imf_obj_deps
     sycl-compiler)
 set(itt_obj_deps device_itt.h spirv_vars.h device.h sycl-compiler)
 set(bfloat16_obj_deps sycl-headers sycl-compiler)
-if(NOT MSVC)
+if(NOT MSVC AND UR_SANITIZER_INCLUDE_DIR)
   set(sanitizer_obj_deps
       device.h
       atomic.hpp
       spirv_vars.h
-      include/asan_libdevice.hpp
+      ${UR_SANITIZER_INCLUDE_DIR}/asan_libdevice.hpp
       include/sanitizer_utils.hpp
       include/spir_global_var.hpp
       sycl-compiler)
@@ -260,14 +273,17 @@ if(MSVC)
   add_devicelibs(libsycl-msvc-math SRC msvc_math.cpp DEPENDENCIES
                  ${cmath_obj_deps})
 else()
-  add_devicelibs(
-    libsycl-sanitizer
-    SRC
-    sanitizer_utils.cpp
-    DEPENDENCIES
-    ${sanitizer_obj_deps}
-    EXTRA_OPTS
-    -fno-sycl-instrument-device-code)
+  if(UR_SANITIZER_INCLUDE_DIR)
+    add_devicelibs(
+      libsycl-sanitizer
+      SRC
+      sanitizer_utils.cpp
+      DEPENDENCIES
+      ${sanitizer_obj_deps}
+      EXTRA_OPTS
+      -fno-sycl-instrument-device-code
+      -I${UR_SANITIZER_INCLUDE_DIR})
+  endif()
 endif()
 
 add_devicelibs(
@@ -328,9 +344,9 @@ set(imf_fp32_fallback_src ${imf_fallback_src_dir}/imf_fp32_fallback.cpp)
 set(imf_fp64_fallback_src ${imf_fallback_src_dir}/imf_fp64_fallback.cpp)
 set(imf_bf16_fallback_src ${imf_fallback_src_dir}/imf_bf16_fallback.cpp)
 
-set(imf_host_cxx_flags -c -D__LIBDEVICE_HOST_IMPL__)
-list(APPEND imf_host_cxx_flags "--sysroot=$ENV{CONDA_BUILD_SYSROOT}"
-     "--gcc-install-dir=$ENV{GCC_TOOLCHAIN}" $ENV{CXXFLAGS})
+set(imf_host_cxx_flags
+    -c -D__LIBDEVICE_HOST_IMPL__ "--sysroot=$ENV{CONDA_BUILD_SYSROOT}"
+    "--gcc-install-dir=$ENV{GCC_TOOLCHAIN}")
 
 macro(mangle_name str output)
   string(STRIP "${str}" strippedStr)
@@ -476,7 +492,7 @@ foreach(arch IN LISTS devicelib_arch)
   endforeach()
 endforeach()
 
-# Create one large bitcode file for the CUDA and AMD targets. Use all the files
+# Create one large bitcode file for the NVPTX and AMD targets. Use all the files
 # collected in the respective global properties.
 foreach(arch IN LISTS devicelib_arch)
   get_property(BC_DEVICE_LIBS_${arch} GLOBAL PROPERTY BC_DEVICE_LIBS_${arch})
@@ -491,7 +507,7 @@ foreach(arch IN LISTS devicelib_arch)
   # Run the optimizer on the resulting bitcode file and call prepare_builtins on
   # it, which strips away debug and arch information.
   process_bc(
-    devicelib--${arch}.bc
+    devicelib-${arch}.bc
     LIB_TGT
     builtins_${arch}.opt
     IN_FILE
@@ -502,9 +518,9 @@ foreach(arch IN LISTS devicelib_arch)
     ${opt_flags_${arch}}
     DEPENDENCIES
     device_lib_device_${arch})
-  add_dependencies(libsycldevice-bc prepare-devicelib--${arch}.bc)
+  add_dependencies(libsycldevice-bc prepare-devicelib-${arch}.bc)
   set(complete_${arch}_libdev
-      $<TARGET_PROPERTY:prepare-devicelib--${arch}.bc,TARGET_FILE>)
+      $<TARGET_PROPERTY:prepare-devicelib-${arch}.bc,TARGET_FILE>)
   install(
     FILES ${complete_${arch}_libdev}
     DESTINATION ${install_dest_bc}

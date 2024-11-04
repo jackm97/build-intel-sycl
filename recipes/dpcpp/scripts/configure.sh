@@ -4,6 +4,7 @@ set -e
 
 find "$PIXI_PROJECT_ROOT/llvm/build" -name CMakeCache.txt -exec rm {} ';'
 
+cp "$PIXI_PROJECT_ROOT"/recipes/dpcpp/SYCLLibdevice.cmake "$PIXI_PROJECT_ROOT"/llvm/libdevice/cmake/modules
 python "$PIXI_PROJECT_ROOT"/llvm/buildbot/configure.py \
   --cuda --native_cpu \
   --llvm-external-projects="clang-tools-extra,compiler-rt" \
