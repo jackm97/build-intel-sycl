@@ -2,90 +2,89 @@
 authors = ["Jack Myers <jack.myers@intel.com>"]
 channels = ["https://software.repos.intel.com/python/conda/", "conda-forge"]
 description = "Add a short description here"
-name = "build-intel-sycl"
+name = "dpcpp"
+# platforms = ["win-64", "linux-64"]
 platforms = ["linux-64"]
-version = "0.1.0"
+version = "20.0.0"
 
-# Default system requirements for Linux
-[system-requirements]
-linux = "4.18"
-libc = { family = "glibc", version = "2.28" }
-
-[build-dependencies]
-cmake = ">=3.30.5,<4"
-python = ">=3.11.9,<4"
-ninja = ">=1.12.1,<2"
-wget = ">=1.21.4,<2"
-git = ">=2.47.0,<3"
-lld = ">=19.1.2,<20"
-c-compiler = ">=1.8.0,<2"
-clang_linux-64 = ">=18,<19"
-clangxx_linux-64 = ">=18,<19"
-ccache = ">=4.10.1,<5"
-pkg-config = ">=0.29.2,<0.30"
-cuda = ">=12.6.2,<13"
-ocl-icd = ">=2.3.2,<3"
-ocl-icd-system = ">=1.0.0,<2"
-
-[host-dependencies]
-clangxx_linux-64 = ">=18,<19"
-pkg-config = ">=0.29.2,<0.30"
-cuda = ">=12.6.2,<13"
-sysroot_linux-64 = ">=2.28"
-ocl-icd = ">=2.3.2,<3"
-ocl-icd-system = ">=1.0.0,<2"
-
+# Common among all toolchains
 [dependencies]
-python = ">=3.11.9,<4"
-clang_linux-64 = ">=18,<19"
-clangxx_linux-64 = ">=18,<19"
-pkg-config = ">=0.29.2,<0.30"
-cuda = ">=12.6.2,<13"
-sysroot_linux-64 = ">=2.28"
-ocl-icd = ">=2.3.2,<3"
-ocl-icd-system = ">=1.0.0,<2"
+python = ">=3.12.5,<4"
+cmake = ">=3.30.5,<4"
+ninja = ">=1.12.1,<2"
+git = ">=2.47.0,<3"
+clang-tools = ">=18.1.8,<20"
 intel-opencl-rt = ">=2024.2.1,<2025"
 intel-fortran-rt = ">=2024.2.1,<2025"
+ccache = ">=4.10.1,<5"
+pkg-config = ">=0.29.2,<0.30"
+
+[target.linux-64.dependencies]
+sysroot_linux-64 = ">=2.28"
+ocl-icd = ">=2.3.2,<3"
+ocl-icd-system = ">=1.0.0,<2"
 clinfo = ">=3.0.21.2.21,<4"
 intel-opencl-fpga-emu-rt = ">=2024.2.1,<2025"
+wget = ">=1.21.4,<2"
+cuda = ">=12.6.2,<13"
 
-[activation]
-scripts = ["env.sh"]
+[target.linux-64.activation]
+scripts = ["activation/linux.sh"]
 
-[feature.dpcpp-build.activation]
-scripts = ["env.sh", "recipes/dpcpp/env.sh"]
+# [target.win-64.activation]
+# scripts = ["activation/msvc.bat"]
 
-[feature.onemkl-build.activation]
-scripts = ["env.sh", "recipes/onemkl/env.sh"]
 
-[feature.onemkl-build.tasks]
-clone = { cmd = "./recipes/onemkl/scripts/clone_mkl.sh", depends-on = [
-  "install",
+# CLANG Toolchain
+[feature.clang.dependencies]
+clangdev = ">=18,<19"
+
+[feature.clang.target.linux-64.dependencies]
+clangxx_linux-64 = ">=18,<19"
+clang_linux-64 = ">=18,<19"
+
+# [feature.clang.target.win-64.dependencies]
+# vs_win-64 = ">=2022.11,<2023"
+
+[feature.clang.target.linux-64.activation]
+scripts = ["activation/clang.sh"]
+
+# [feature.clang.target.win-64.activation]
+# scripts = ["activation/clang.bat"]
+
+
+# Post-DPCPP Build
+[feature.onemkl.dependencies]
+clangdev = ">=18,<19"
+
+[feature.onemkl.target.linux-64.dependencies]
+clangxx_linux-64 = ">=18,<19"
+clang_linux-64 = ">=18,<19"
+
+[feature.onemkl.target.linux-64.activation]
+scripts = ["activation/dpcpp.sh"]
+
+
+# ENVIRONMENTS
+[environments]
+dpcpp-build = ["clang", "dpcpp"]
+onemkl-build = ["onemkl"]
+
+
+[feature.dpcpp.tasks]
+setup = "bash recipes/dpcpp/scripts/setup.sh"
+configure = { cmd = "bash recipes/dpcpp/scripts/configure.sh", depends-on = [
+  "setup",
 ] }
-configure = { cmd = "./recipes/onemkl/scripts/configure_mkl.sh", depends-on = [
-  "clone",
-] }
-build = { cmd = "./recipes/onemkl/scripts/build_mkl.sh", depends-on = [
+build = { cmd = "bash recipes/dpcpp/scripts/build.sh", depends-on = [
   "configure",
 ] }
-install = { cmd = "./recipes/onemkl/scripts/install_mkl.sh", depends-on = [
+install = { cmd = "bash recipes/dpcpp/scripts/install.sh", depends-on = [
   "build",
 ] }
 
-[feature.dpcpp-build.tasks]
-setup = "bash ./recipes/dpcpp/scripts/setup.sh"
-clone = { cmd = "./recipes/dpcpp/scripts/clone.sh", depends-on = ["setup"] }
-configure = { cmd = "./recipes/dpcpp/scripts/configure.sh", depends-on = [
-  "clone",
-] }
-build = { cmd = "./recipes/dpcpp/scripts/build.sh", depends-on = ["configure"] }
-install = { cmd = "./recipes/dpcpp/scripts/install.sh", depends-on = ["build"] }
 
-[feature.update-deps.dependencies]
-python = ">=3.11.9,<4"
-tomlkit = ">=0.13.2,<0.14"
-
-[environments]
-onemkl-build = ["onemkl-build"]
-dpcpp-build = ["dpcpp-build"]
-update-deps = ["update-deps"]
+[feature.onemkl.tasks]
+configure = { cmd = "cmake . --preset onemkl-build-linux" }
+build = { cmd = "cmake --build onemkl/build", depends-on = ["configure"] }
+install = { cmd = "cmake --install onemkl/build", depends-on = ["build"] }

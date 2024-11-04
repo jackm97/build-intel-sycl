@@ -49,11 +49,8 @@ set(SYCL_LIBDEVICE_GCC_TOOLCHAIN
     ""
     CACHE PATH "Path to GCC installation")
 
-list(
-  APPEND
-  compile_opts
-  "--gcc-toolchain=$ENV{GCC_TOOLCHAIN};--gcc-triple=$ENV{BUILD};--sysroot=$ENV{CONDA_BUILD_SYSROOT};-isystem;$ENV{STDCXX_INC_DIR};-isystem;$ENV{STDCXX_INC_DIR}/$ENV{BUILD}"
-)
+list(APPEND compile_opts "--sysroot=$ENV{CONDA_BUILD_SYSROOT}"
+     "--gcc-install-dir=$ENV{GCC_TOOLCHAIN}" $ENV{CXXFLAGS})
 
 if(WIN32)
   list(APPEND compile_opts -D_ALLOW_RUNTIME_LIBRARY_MISMATCH)
@@ -332,11 +329,8 @@ set(imf_fp64_fallback_src ${imf_fallback_src_dir}/imf_fp64_fallback.cpp)
 set(imf_bf16_fallback_src ${imf_fallback_src_dir}/imf_bf16_fallback.cpp)
 
 set(imf_host_cxx_flags -c -D__LIBDEVICE_HOST_IMPL__)
-list(
-  APPEND
-  imf_host_cxx_flags
-  "--gcc-toolchain=$ENV{GCC_TOOLCHAIN};--gcc-triple=$ENV{BUILD};--sysroot=$ENV{CONDA_BUILD_SYSROOT};-isystem;$ENV{STDCXX_INC_DIR};-isystem;$ENV{STDCXX_INC_DIR}/$ENV{BUILD}"
-)
+list(APPEND imf_host_cxx_flags "--sysroot=$ENV{CONDA_BUILD_SYSROOT}"
+     "--gcc-install-dir=$ENV{GCC_TOOLCHAIN}" $ENV{CXXFLAGS})
 
 macro(mangle_name str output)
   string(STRIP "${str}" strippedStr)

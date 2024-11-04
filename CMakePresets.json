@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 14,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{CMAKE_TOOLCHAIN_FILE}"
+      }
+    },
+    {
+      "name": "linux",
+      "description": "These flags are supported by both GCC and Clang",
+      "hidden": true,
+      "inherits": ["base"],
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "$env{CXXFLAGS}",
+        "CMAKE_EXE_LINKER_FLAGS": "$env{LDFLAGS}",
+        "CMAKE_SHARED_LINKER_FLAGS": "$env{LDFLAGS}",
+        "CMAKE_INSTALL_PREFIX": "$env{HOME}/intel/dpcpp"
+      }
+    },
+    {
+      "name": "windows",
+      "hidden": true,
+      "inherits": ["base"],
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "$env{CXXFLAGS} $env{CL} /sdl /guard:cf /utf-8 /diagnostics:caret /permissive- /volatile:iso /Zc:inline /Zc:__cplusplus /GR /EHsc /D_CRT_SECURE_NO_WARNINGS",
+        "CMAKE_EXE_LINKER_FLAGS": "$env{LDFLAGS} /machine:x64 /guard:cf",
+        "CMAKE_SHARED_LINKER_FLAGS": "$env{LDFLAGS} /machine:x64 /guard:cf"
+      }
+    },
+    {
+      "name": "onemkl-build-linux",
+      "inherits": ["linux"],
+      "binaryDir": "onemkl/build",
+      "cacheVariables": {
+        "BUILD_ONEMKL": "ON",
+        "ENABLE_MKLCPU_BACKEND": "False",
+        "ENABLE_MKLGPU_BACKEND": "False",
+        "ENABLE_CUBLAS_BACKEND": "True",
+        "ENABLE_CUSOLVER_BACKEND": "True",
+        "BUILD_FUNCTIONAL_TESTS": "False",
+        "BUILD_EXAMPLES": "False",
+        "TARGET_DOMAINS": "blas lapack"
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,7 @@
+[submodule "llvm"]
+	path = llvm
+	url = https://github.com/intel/llvm
+	branch = cbdee7a
+[submodule "onemkl"]
+	path = onemkl
+	url = https://github.com/oneapi-src/oneMKL.git
