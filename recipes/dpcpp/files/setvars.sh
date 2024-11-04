@@ -32,10 +32,10 @@ function setup_conda() {
     export CXX="clang++"
 
     export LD_LIBRARY_PATH="$DPCPP_LIB_DIRS:$CONDA_PREFIX/lib:$LD_LIBRARY_PATH"
+
+    ln -sf "$DPCPP_ROOT"/bin/* "$CONDA_PREFIX/bin"
   fi
   export DPCPP_CONDA_SETUP_DONE="1"
-
-  ln -sf "$DPCPP_ROOT"/bin/* "$CONDA_PREFIX/bin"
 }
 
 if [ -z "$DPCPP_ROOT" ]; then

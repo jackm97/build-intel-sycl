@@ -27,6 +27,7 @@ clinfo = ">=3.0.21.2.21,<4"
 intel-opencl-fpga-emu-rt = ">=2024.2.1,<2025"
 wget = ">=1.21.4,<2"
 cuda = ">=12.6.2,<13"
+pthread-stubs = ">=0.4,<0.5"
 
 [target.linux-64.activation]
 scripts = ["activation/linux.sh"]
@@ -85,6 +86,11 @@ install = { cmd = "bash recipes/dpcpp/scripts/install.sh", depends-on = [
 
 
 [feature.onemkl.tasks]
-configure = { cmd = "cmake . --preset onemkl-build-linux" }
+link-presets = { cmd = "ln -sf $PIXI_PROJECT_ROOT/CMakePresets.json $PIXI_PROJECT_ROOT/onemkl/CMakePresets.json", outputs = [
+  "onemkl/CMakePresets.json",
+] }
+configure = { cmd = "cmake onemkl --preset onemkl-build-linux", depends-on = [
+  "link-presets",
+] }
 build = { cmd = "cmake --build onemkl/build", depends-on = ["configure"] }
 install = { cmd = "cmake --install onemkl/build", depends-on = ["build"] }

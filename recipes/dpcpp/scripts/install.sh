@@ -18,4 +18,4 @@ cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target install-llvm-profdata
 cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target install-compiler-rt
 cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target install
 
-cp -r "$PIXI_PROJECT_ROOT"/recipes/dpcpp/files "$DPCPP_ROOT"
+cp -r "$PIXI_PROJECT_ROOT"/recipes/dpcpp/files/* "$DPCPP_ROOT"

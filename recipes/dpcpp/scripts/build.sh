@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-cd "$DPCPP_HOME"/llvm/build
-cmake --build "$DPCPP_HOME"/llvm/build --target clang -- -j$(nproc)
+cd "$PIXI_PROJECT_ROOT"/llvm/build
+cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target clang -- -j$(nproc)

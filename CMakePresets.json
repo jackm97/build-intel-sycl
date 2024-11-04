@@ -39,7 +39,7 @@
     {
       "name": "onemkl-build-linux",
       "inherits": ["linux"],
-      "binaryDir": "onemkl/build",
+      "binaryDir": "build",
       "cacheVariables": {
         "BUILD_ONEMKL": "ON",
         "ENABLE_MKLCPU_BACKEND": "False",
