@@ -4,13 +4,12 @@ set -e
 
 function setup_dpcpp() {
   if [ -z "$DPCPP_LIB_DIRS" ]; then
-    export PATH="$DPCPP_ROOT/bin:$PATH"
     export DPCPP_LIB_DIRS="$DPCPP_ROOT/lib:$DPCPP_ROOT/lib64"
 
     link_path_flags=""
     for path in ${DPCPP_LIB_DIRS//:/ }; do
       # link_path_flags="$config_ldflags -L $path"
-      link_path_flags="-L $path -Wl,-rpath,$path $link_path_flags"
+      link_path_flags="-Wl,-rpath,$path -L $path $link_path_flags"
     done
     export DPCPP_LDFLAGS="$link_path_flags"
 
@@ -26,14 +25,12 @@ function setup_conda() {
     export DPCPP_CXXFLAGS="--sysroot=$CONDA_BUILD_SYSROOT --gcc-install-dir=$GCC_TOOLCHAIN $DPCPP_CFLAGS $CXXFLAGS"
     export DPCPP_CFLAGS="--sysroot=$CONDA_BUILD_SYSROOT --gcc-install-dir=$GCC_TOOLCHAIN $DPCPP_CFLAGS $CFLAGS"
 
-    export DPCPP_LDFLAGS="$LDFLAGS $DPCPP_LDFLAGS"
+    export DPCPP_LDFLAGS="$DPCPP_LDFLAGS $LDFLAGS"
 
-    export CC="clang"
-    export CXX="clang++"
+    export CC="$DPCPP_ROOT/bin/clang"
+    export CXX="$DPCPP_ROOT/bin/clang++"
 
     export LD_LIBRARY_PATH="$DPCPP_LIB_DIRS:$CONDA_PREFIX/lib:$LD_LIBRARY_PATH"
-
-    ln -sf "$DPCPP_ROOT"/bin/* "$CONDA_PREFIX/bin"
   fi
   export DPCPP_CONDA_SETUP_DONE="1"
 }
@@ -44,8 +41,8 @@ if [ -z "$DPCPP_ROOT" ]; then
 fi
 
 setup_dpcpp
+export PATH="$DPCPP_ROOT/bin:$PATH"
+export LD_LIBRARY_PATH="$DPCPP_LIB_DIRS:$LD_LIBRARY_PATH"
 if [ -n "$CONDA_PREFIX" ]; then
   setup_conda
-else
-  export LD_LIBRARY_PATH="$DPCPP_LIB_DIRS:$LD_LIBRARY_PATH"
 fi

@@ -11,6 +11,8 @@
       "hidden": true,
       "generator": "Ninja",
       "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "$env{CXX}",
+        "CMAKE_C_COMPILER": "$env{CC}",
         "CMAKE_TOOLCHAIN_FILE": "$env{CMAKE_TOOLCHAIN_FILE}"
       }
     },
@@ -23,7 +25,7 @@
         "CMAKE_CXX_FLAGS": "$env{CXXFLAGS}",
         "CMAKE_EXE_LINKER_FLAGS": "$env{LDFLAGS}",
         "CMAKE_SHARED_LINKER_FLAGS": "$env{LDFLAGS}",
-        "CMAKE_INSTALL_PREFIX": "$env{HOME}/intel/dpcpp"
+        "CMAKE_INSTALL_PREFIX": "$env{ONEAPI_ROOT}/onemkl-external"
       }
     },
     {
@@ -42,15 +44,17 @@
       "binaryDir": "build",
       "cacheVariables": {
         "BUILD_ONEMKL": "ON",
-        "ENABLE_MKLCPU_BACKEND": "False",
-        "ENABLE_MKLGPU_BACKEND": "False",
+        "ENABLE_MKLCPU_BACKEND": "True",
+        "ENABLE_MKLGPU_BACKEND": "True",
+        "ENABLE_MKLCPU_THREAD_TBB": "True",
         "ENABLE_CUBLAS_BACKEND": "True",
         "ENABLE_CUSOLVER_BACKEND": "True",
+        "ENABLE_CUSPARSE_BACKEND": "True",
+        "ENABLE_CUFFT_BACKEND": "True",
+        "ENABLE_CURAND_BACKEND": "True",
         "BUILD_FUNCTIONAL_TESTS": "False",
-        "BUILD_EXAMPLES": "False",
-        "TARGET_DOMAINS": "blas lapack"
+        "BUILD_EXAMPLES": "False"
       }
     }
   ]
 }
-
