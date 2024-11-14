@@ -3,8 +3,6 @@
 *.egg-info
 deps
 intel/oneapi
-llvm
-onemkl/
 !recipes/onemkl
 intel/sysroot
 
