@@ -2,25 +2,20 @@
 
 set -e
 
-source "$PIXI_PROJECT_ROOT/activation/linux.sh"
-source "$PIXI_PROJECT_ROOT/activation/gcc.sh"
+source "$SYCL_PROJECT_ROOT/activation/linux.sh"
+source "$SYCL_PROJECT_ROOT/activation/gcc.sh"
 
-cd "$PIXI_PROJECT_ROOT"/llvm/build
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target deploy-sycl-toolchain
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target utils/FileCheck/install
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target utils/count/install
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target utils/not/install
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target utils/lit/install
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target utils/llvm-lit/install
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target install-llvm-size
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target install-llvm-cov
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target install-llvm-profdata
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target install-compiler-rt
-cmake --build "$PIXI_PROJECT_ROOT"/llvm/build --target install
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t deploy-sycl-toolchain
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t utils/FileCheck/install
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t utils/count/install
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t utils/not/install
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t utils/lit/install
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t utils/llvm-lit/install
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t install-llvm-size
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t install-llvm-cov
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t install-llvm-profdata
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t install-compiler-rt
+python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t install
 
-sudo chown -R $USER $DPCPP_ROOT
-
-mkdir -p "$DPCPP_ROOT"/scripts
-cd "$PIXI_PROJECT_ROOT"/recipes/dpcpp/files
-cp -r ./* "$DPCPP_ROOT"
-find bin/ -type f -exec chmod +x "$DPCPP_ROOT"/{} ";"
+# cp -r "$PREFIX/llvm-sycl/*" "$PREFIX"
+# rm -rf "$PREFIX/llvm-sycl"

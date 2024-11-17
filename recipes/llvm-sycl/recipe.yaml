@@ -2,7 +2,7 @@ context:
   name: llvm-sycl
   version: 20.0.0
   inherited-env-vars:
-    - PIXI_PROJECT_ROOT
+    - SYCL_PROJECT_ROOT
 
 package:
   name: ${{ name|lower }}
@@ -12,9 +12,9 @@ build:
   script:
     interpreter: bash
     content: |
-      bash $PIXI_PROJECT_ROOT/recipes/scripts/configure.sh 
-      bash $PIXI_PROJECT_ROOT/recipes/scripts/build.sh 
-      bash $PIXI_PROJECT_ROOT/recipes/scripts/install.sh
+      bash $SYCL_PROJECT_ROOT/recipes/scripts/configure.sh 
+      bash $SYCL_PROJECT_ROOT/recipes/scripts/build.sh 
+      bash $SYCL_PROJECT_ROOT/recipes/scripts/install.sh
 
 requirements:
   host:
