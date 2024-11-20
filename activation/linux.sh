@@ -12,10 +12,6 @@ if [ -z "$PIXI_LINUX_ACTIVE" ]; then
     export SYCL_PROJECT_ROOT="$new_root"
   fi
 
-  for file in "$PREFIX"/etc/conda/deactivate.d/*; do
-    source "$file"
-  done
-
   export CUDA_ROOT="$PREFIX/targets/x86_64-linux"
   export CUDA_LIB_PATH="$CUDA_ROOT/lib/stubs:$PREFIX/lib"
   export LD_LIBRARY_PATH="$PREFIX/lib:$CUDA_LIB_PATH:$LD_LIBRARY_PATH"
