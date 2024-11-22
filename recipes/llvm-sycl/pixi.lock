@@ -189,6 +189,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/rhash-1.4.5-hb9d3cd8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.34-h8bc681e_0.conda
       - conda: https://software.repos.intel.com/python/conda/linux-64/tbb-2022.0.0-intel_402.tar.bz2
+      - conda: https://software.repos.intel.com/python/conda/linux-64/tbb-devel-2022.0.0-intel_402.tar.bz2
       - conda: https://software.repos.intel.com/python/conda/linux-64/tcm-1.2.0-intel_589.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/tk-8.6.13-noxft_h4845f30_101.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2024b-hc8b5060_0.conda
@@ -3331,6 +3332,20 @@ packages:
   license: Intel Simplified Software License
   size: 1922875
   timestamp: 1729201151196
+- kind: conda
+  name: tbb-devel
+  version: 2022.0.0
+  build: intel_402
+  build_number: 402
+  subdir: linux-64
+  url: https://software.repos.intel.com/python/conda/linux-64/tbb-devel-2022.0.0-intel_402.tar.bz2
+  sha256: 1b1029a9ceb00ef7116c3ec0c15a1de10a78eb27a2d3591b53a43a5ffd00ea9e
+  md5: 5dc97232a12b354fc0e1679c1527c091
+  depends:
+  - tbb 2022.0.0 intel_402
+  license: Intel Simplified Software License
+  size: 2011877
+  timestamp: 1729201122113
 - kind: conda
   name: tcm
   version: 1.2.0
