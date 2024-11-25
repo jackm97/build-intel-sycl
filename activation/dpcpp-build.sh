@@ -5,6 +5,6 @@ if [ -z "$DPCPP_ROOT" ]; then
 fi
 
 if [ -z "$PIXI_DPCPP_BUILD_ACTIVE" ]; then
-  export CMAKE_PREFIX_PATH="$SYCL_PROJECT_ROOT/llvm/build/NATIVE/lib/cmake:$CMAKE_PREFIX_PATH"
+  export CMAKE_PREFIX_PATH="$SYCL_PROJECT_ROOT/llvm/build/lib/cmake:$CMAKE_PREFIX_PATH"
   export PIXI_DPCPP_BUILD_ACTIVE=1
 fi
