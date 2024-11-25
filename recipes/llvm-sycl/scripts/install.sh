@@ -2,9 +2,8 @@
 
 set -e
 
-source "$SYCL_PROJECT_ROOT/activation/linux.sh"
-source "$SYCL_PROJECT_ROOT/activation/gcc.sh"
-
-python "$SYCL_PROJECT_ROOT/llvm/buildbot/compile.py" -t install
+cd "$SYCL_PROJECT_ROOT/llvm/build"
+cmake --build . -t Native
+ninja install
 
 cp -r "$SYCL_PROJECT_ROOT"/recipes/llvm-sycl/files/* "$INSTALL_PREFIX"

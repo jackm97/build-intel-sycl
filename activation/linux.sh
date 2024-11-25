@@ -14,7 +14,6 @@ if [ -z "$PIXI_LINUX_ACTIVE" ]; then
 
   export CUDA_ROOT="$PREFIX/targets/x86_64-linux"
   export CUDA_LIB_PATH="$CUDA_ROOT/lib/stubs:$PREFIX/lib"
-  export LD_LIBRARY_PATH="$PREFIX/lib:$CUDA_LIB_PATH:$LD_LIBRARY_PATH"
-  export CMAKE_TOOLCHAIN_FILE="$SYCL_PROJECT_ROOT/toolchains/linux.cmake"
+  export LD_LIBRARY_PATH="$CUDA_LIB_PATH:$LD_LIBRARY_PATH"
   export PIXI_LINUX_ACTIVE="1"
 fi
