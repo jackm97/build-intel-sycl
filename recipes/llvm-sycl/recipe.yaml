@@ -2,7 +2,7 @@ context:
   name: llvm-sycl
   version: 20.0.0
   inherited-env-vars:
-    - SYCL_PROJECT_ROOT
+    - PROJECT_ROOT
 
 package:
   name: ${{ name|lower }}
@@ -12,9 +12,9 @@ build:
   script:
     interpreter: bash
     content: |
-      bash $SYCL_PROJECT_ROOT/recipes/scripts/configure.sh 
-      bash $SYCL_PROJECT_ROOT/recipes/scripts/build.sh 
-      bash $SYCL_PROJECT_ROOT/recipes/scripts/install.sh
+      bash $PROJECT_ROOT/recipes/scripts/configure.sh 
+      bash $PROJECT_ROOT/recipes/scripts/build.sh 
+      bash $PROJECT_ROOT/recipes/scripts/install.sh
 
 requirements:
   host:

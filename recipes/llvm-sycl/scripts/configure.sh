@@ -2,24 +2,24 @@
 
 set -e
 
-mkdir -p "$SYCL_PROJECT_ROOT/llvm/build"
+mkdir -p "$PROJECT_ROOT/llvm/build"
 
-if [ -d "$SYCL_PROJECT_ROOT/llvm" ]; then
-  find "$SYCL_PROJECT_ROOT/llvm" -name "CMakeCache.txt" -exec rm {} ";"
+if [ -d "$PROJECT_ROOT/llvm" ]; then
+  find "$PROJECT_ROOT/llvm" -name "CMakeCache.txt" -exec rm {} ";"
 fi
 
-mkdir -p "$SYCL_PROJECT_ROOT/llvm/build/bin"
+mkdir -p "$PROJECT_ROOT/llvm/build/bin"
 clangxx_flags="--sysroot=$CONDA_BUILD_SYSROOT --gcc-toolchain=$CONDA_PREFIX --target=$HOST $CXXFLAGS"
 clang_flags="--sysroot=$CONDA_BUILD_SYSROOT --gcc-toolchain=$CONDA_PREFIX --target=$HOST $CFLAGS"
-echo "$clangxx_flags" >"$SYCL_PROJECT_ROOT/llvm/build/bin/clang++.cfg"
-echo "$LDFLAGS" >>"$SYCL_PROJECT_ROOT/llvm/build/bin/clang++.cfg"
-echo "$clang_flags" >"$SYCL_PROJECT_ROOT/llvm/build/bin/clang.cfg"
-echo "$LDFLAGS" >>"$SYCL_PROJECT_ROOT/llvm/build/bin/clang.cfg"
+echo "$clangxx_flags" >"$PROJECT_ROOT/llvm/build/bin/clang++.cfg"
+echo "$LDFLAGS" >>"$PROJECT_ROOT/llvm/build/bin/clang++.cfg"
+echo "$clang_flags" >"$PROJECT_ROOT/llvm/build/bin/clang.cfg"
+echo "$LDFLAGS" >>"$PROJECT_ROOT/llvm/build/bin/clang.cfg"
 
-cd "$SYCL_PROJECT_ROOT/llvm/build"
+cd "$PROJECT_ROOT/llvm/build"
 
 cmake_cmd="cmake -G Ninja ../llvm $CMAKE_ARGS \
-  -DCMAKE_TOOLCHAIN_FILE='$SYCL_PROJECT_ROOT/toolchains/linux.cmake' \
+  -DCMAKE_TOOLCHAIN_FILE='$PROJECT_ROOT/toolchains/linux.cmake' \
   -DLLVM_HOST_TRIPLE='$HOST' \
   -DLLVM_DEFAULT_TARGET_TRIPLE=$HOST \
   -DLLVM_ENABLE_BACKTRACES=ON \
@@ -37,12 +37,12 @@ cmake_cmd="cmake -G Ninja ../llvm $CMAKE_ARGS \
   -DLLVM_TARGETS_TO_BUILD='X86;NVPTX' \
   -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD='SPIRV' \
   -DLLVM_EXTERNAL_PROJECTS='sycl;llvm-spirv;opencl;xpti;xptifw;libdevice;sycl-jit' \
-  -DLLVM_EXTERNAL_OPENCL_SOURCE_DIR='$SYCL_PROJECT_ROOT/llvm/clang' \
-  -DLLVM_EXTERNAL_SYCL_SOURCE_DIR='$SYCL_PROJECT_ROOT/llvm/sycl' \
-  -DLLVM_EXTERNAL_LLVM_SPIRV_SOURCE_DIR='$SYCL_PROJECT_ROOT/llvm/llvm-spirv' \
-  -DLLVM_EXTERNAL_OPENCL_SOURCE_DIR='$SYCL_PROJECT_ROOT/llvm/opencl' \
-  -DLLVM_EXTERNAL_XPTI_SOURCE_DIR='$SYCL_PROJECT_ROOT/llvm/xpti' \
-  -DXPTI_SOURCE_DIR='$SYCL_PROJECT_ROOT/llvm/xpti' \
+  -DLLVM_EXTERNAL_OPENCL_SOURCE_DIR='$PROJECT_ROOT/llvm/clang' \
+  -DLLVM_EXTERNAL_SYCL_SOURCE_DIR='$PROJECT_ROOT/llvm/sycl' \
+  -DLLVM_EXTERNAL_LLVM_SPIRV_SOURCE_DIR='$PROJECT_ROOT/llvm/llvm-spirv' \
+  -DLLVM_EXTERNAL_OPENCL_SOURCE_DIR='$PROJECT_ROOT/llvm/opencl' \
+  -DLLVM_EXTERNAL_XPTI_SOURCE_DIR='$PROJECT_ROOT/llvm/xpti' \
+  -DXPTI_SOURCE_DIR='$PROJECT_ROOT/llvm/xpti' \
   -DLLVM_ENABLE_PROJECTS='clang;clang-tools-extra;libclc;lld;sycl;llvm-spirv;opencl;xpti;xptifw;libdevice;sycl-jit' \
   -DLLVM_ENABLE_RUNTIMES='compiler-rt;openmp' \
   -DSYCL_BUILD_PI_HIP_PLATFORM='' \
