@@ -9,8 +9,8 @@ if [ -d "$PROJECT_ROOT/llvm" ]; then
 fi
 
 mkdir -p "$PROJECT_ROOT/llvm/build/bin"
-clangxx_flags="--sysroot=$CONDA_BUILD_SYSROOT --gcc-toolchain=$CONDA_PREFIX --target=$HOST $CXXFLAGS"
-clang_flags="--sysroot=$CONDA_BUILD_SYSROOT --gcc-toolchain=$CONDA_PREFIX --target=$HOST $CFLAGS"
+clangxx_flags="--sysroot=$CONDA_BUILD_SYSROOT --gcc-toolchain=$BUILD_PREFIX --target=$CONDA_TOOLCHAIN_HOST $CXXFLAGS"
+clang_flags="--sysroot=$CONDA_BUILD_SYSROOT --gcc-toolchain=$BUILD_PREFIX --target=$CONDA_TOOLCHAIN_HOST $CFLAGS"
 echo "$clangxx_flags" >"$PROJECT_ROOT/llvm/build/bin/clang++.cfg"
 echo "$LDFLAGS" >>"$PROJECT_ROOT/llvm/build/bin/clang++.cfg"
 echo "$clang_flags" >"$PROJECT_ROOT/llvm/build/bin/clang.cfg"
@@ -20,8 +20,9 @@ cd "$PROJECT_ROOT/llvm/build"
 
 cmake_cmd="cmake -G Ninja ../llvm $CMAKE_ARGS \
   -DCMAKE_TOOLCHAIN_FILE='$PROJECT_ROOT/toolchains/linux.cmake' \
-  -DLLVM_HOST_TRIPLE='$HOST' \
-  -DLLVM_DEFAULT_TARGET_TRIPLE=$HOST \
+  -DCMAKE_INSTALL_RPATH='../lib;../lib64' \
+  -DLLVM_HOST_TRIPLE='$CONDA_TOOLCHAIN_HOST' \
+  -DLLVM_DEFAULT_TARGET_TRIPLE=$CONDA_TOOLCHAIN_HOST \
   -DLLVM_ENABLE_BACKTRACES=ON \
   -DLLVM_ENABLE_DUMP=ON \
   -DLLVM_ENABLE_LIBEDIT=OFF \

@@ -1,6 +1,8 @@
 set(CMAKE_C_COMPILER "$ENV{CC}")
 set(CMAKE_CXX_COMPILER "$ENV{CXX}")
 
+set(CMAKE_INSTALL_RPATH "\${ORIGIN}/../lib;\${ORIGIN}/../lib64")
+
 # location of the target environment
 set(CMAKE_FIND_ROOT_PATH "$ENV{CONDA_PREFIX}" "$ENV{CONDA_BUILD_SYSROOT}")
 

@@ -184,7 +184,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/rdma-core-54.0-h5888daf_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/readline-8.2-h8228510_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/rhash-1.4.5-hb9d3cd8_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/spirv-tools-2024.3-h84d6215_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.34-h8bc681e_0.conda
       - conda: https://software.repos.intel.com/python/conda/linux-64/tbb-2022.0.0-intel_402.tar.bz2
       - conda: https://software.repos.intel.com/python/conda/linux-64/tbb-devel-2022.0.0-intel_402.tar.bz2
@@ -3247,22 +3246,6 @@ packages:
   license_family: MIT
   size: 186921
   timestamp: 1728886721623
-- kind: conda
-  name: spirv-tools
-  version: '2024.3'
-  build: h84d6215_0
-  subdir: linux-64
-  url: https://conda.anaconda.org/conda-forge/linux-64/spirv-tools-2024.3-h84d6215_0.conda
-  sha256: e8e22bb9122186e40848484d75c2937936343c7f33136d6de9112a3405d45cb5
-  md5: 3dbd83d9840ca5fc2641cff14c2fc0c5
-  depends:
-  - __glibc >=2.17,<3.0.a0
-  - libgcc >=13
-  - libstdcxx >=13
-  license: Apache-2.0
-  license_family: APACHE
-  size: 2021901
-  timestamp: 1727719350905
 - kind: conda
   name: sysroot_linux-64
   version: '2.34'
