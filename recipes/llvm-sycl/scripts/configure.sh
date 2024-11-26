@@ -9,18 +9,20 @@ if [ -d "$PROJECT_ROOT/llvm" ]; then
 fi
 
 mkdir -p "$PROJECT_ROOT/llvm/build/bin"
+mkdir -p "$PROJECT_ROOT/llvm/build/NATIVE/bin"
 clangxx_flags="--sysroot=$CONDA_BUILD_SYSROOT --gcc-toolchain=$BUILD_PREFIX --target=$CONDA_TOOLCHAIN_HOST $CXXFLAGS"
 clang_flags="--sysroot=$CONDA_BUILD_SYSROOT --gcc-toolchain=$BUILD_PREFIX --target=$CONDA_TOOLCHAIN_HOST $CFLAGS"
+echo "$clangxx_flags" >"$PROJECT_ROOT/llvm/build/NATIVE/bin/clang++.cfg"
+echo "$LDFLAGS" >>"$PROJECT_ROOT/llvm/build/NATIVE/bin/clang++.cfg"
+echo "$clang_flags" >"$PROJECT_ROOT/llvm/build/NATIVE/bin/clang.cfg"
+echo "$LDFLAGS" >>"$PROJECT_ROOT/llvm/build/NATIVE/bin/clang.cfg"
 echo "$clangxx_flags" >"$PROJECT_ROOT/llvm/build/bin/clang++.cfg"
 echo "$LDFLAGS" >>"$PROJECT_ROOT/llvm/build/bin/clang++.cfg"
 echo "$clang_flags" >"$PROJECT_ROOT/llvm/build/bin/clang.cfg"
 echo "$LDFLAGS" >>"$PROJECT_ROOT/llvm/build/bin/clang.cfg"
 
-cd "$PROJECT_ROOT/llvm/build"
-
 cmake_cmd="cmake -G Ninja ../llvm $CMAKE_ARGS \
   -DCMAKE_TOOLCHAIN_FILE='$PROJECT_ROOT/toolchains/linux.cmake' \
-  -DCMAKE_INSTALL_RPATH='../lib;../lib64' \
   -DLLVM_HOST_TRIPLE='$CONDA_TOOLCHAIN_HOST' \
   -DLLVM_DEFAULT_TARGET_TRIPLE=$CONDA_TOOLCHAIN_HOST \
   -DLLVM_ENABLE_BACKTRACES=ON \
@@ -28,7 +30,6 @@ cmake_cmd="cmake -G Ninja ../llvm $CMAKE_ARGS \
   -DLLVM_ENABLE_LIBEDIT=OFF \
   -DLLVM_ENABLE_LIBXML2=FORCE_ON \
   -DLLVM_ENABLE_RTTI=ON \
-  -DLLVM_ENABLE_TERMINFO=OFF \
   -DLLVM_ENABLE_ZLIB=FORCE_ON \
   -DLLVM_ENABLE_ZSTD=FORCE_ON \
   -DLLVM_USE_STATIC_ZSTD=FORCE_ON \
@@ -51,7 +52,6 @@ cmake_cmd="cmake -G Ninja ../llvm $CMAKE_ARGS \
   -DSYCL_ENABLE_WERROR=OFF \
   -DCMAKE_INSTALL_PREFIX='$INSTALL_PREFIX' \
   -DSYCL_INCLUDE_TESTS=ON \
-  -DSYCL_CLANG_EXTRA_FLAGS='$clangxx_flags' \
   -DLLVM_ENABLE_DOXYGEN=OFF \
   -DLLVM_ENABLE_SPHINX=FALSE \
   -DBUILD_SHARED_LIBS=OFF \
@@ -67,6 +67,6 @@ cmake_cmd="cmake -G Ninja ../llvm $CMAKE_ARGS \
   -DLIBCLC_NATIVECPU_HOST_TARGET=ON \
   -DLLVM_ENABLE_RTTI=ON"
 
-echo "$cmake_cmd"
+cd "$PROJECT_ROOT/llvm/build"
 
 bash -c "$cmake_cmd"
