@@ -19,7 +19,7 @@ fi
 export CUDA_ROOT="$BUILD_PREFIX/targets/x86_64-linux"
 export CUDA_LIB_PATH="$CUDA_ROOT/lib/stubs"
 export CUDA_LIB_PATH="$BUILD_PREFIX/lib:$CUDA_LIB_PATH"
-export LD_LIBRARY_PATH="$CUDA_LIB_PATH:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$CUDA_LIB_PATH:${LD_LIBRARY_PATH/$CUDA_LIB_PATH/}"
 export PROJECT_TOOLCHAIN_FILE="$PROJECT_ROOT/toolchains/linux.cmake"
 if [ -d "$PIXI_PROJECT_ROOT/vcpkg" ]; then
   export VCPKG_ROOT="$PROJECT_ROOT/vcpkg"
