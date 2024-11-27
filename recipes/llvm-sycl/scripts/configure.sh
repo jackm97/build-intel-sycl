@@ -21,10 +21,12 @@ echo "$LDFLAGS" >>"$PROJECT_ROOT/llvm/build/bin/clang++.cfg"
 echo "$clang_flags" >"$PROJECT_ROOT/llvm/build/bin/clang.cfg"
 echo "$LDFLAGS" >>"$PROJECT_ROOT/llvm/build/bin/clang.cfg"
 
+if [[ ${CONDA_BUILD_CROSS_COMPILATION:-0} == "1" ]]; then
+  export CMAKE_ARGS="-DLLVM_HOST_TRIPLE='$CONDA_TOOLCHAIN_HOST' $CMAKE_ARGS"
+fi
+
 cmake_cmd="cmake -G Ninja ../llvm $CMAKE_ARGS \
   -DCMAKE_TOOLCHAIN_FILE='$PROJECT_ROOT/toolchains/linux.cmake' \
-  -DLLVM_HOST_TRIPLE='$CONDA_TOOLCHAIN_HOST' \
-  -DLLVM_DEFAULT_TARGET_TRIPLE=$CONDA_TOOLCHAIN_HOST \
   -DLLVM_ENABLE_BACKTRACES=ON \
   -DLLVM_ENABLE_DUMP=ON \
   -DLLVM_ENABLE_LIBEDIT=OFF \

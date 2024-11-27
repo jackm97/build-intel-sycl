@@ -1,6 +1,6 @@
 [project]
 authors = ["Jack Myers <jack.myers@intel.com>"]
-channels = ["conda-forge", "https://software.repos.intel.com/python/conda/"]
+channels = ["conda-forge"]
 description = "Add a short description here"
 name = "onemkl"
 platforms = ["linux-64"]

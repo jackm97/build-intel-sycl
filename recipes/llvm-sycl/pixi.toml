@@ -1,6 +1,6 @@
 [project]
 authors = ["Jack Myers <jack.myers@intel.com>"]
-channels = ["https://software.repos.intel.com/python/conda/", "conda-forge"]
+channels = ["conda-forge"]
 description = "Add a short description here"
 name = "llvm-sycl"
 platforms = ["linux-64"]
@@ -13,7 +13,6 @@ pkgconfig = ">=1.5.5,<2"
 sysroot_linux-64 = ">=2.34"
 intel-opencl-rt = ">=2025.0.0,<2026"
 intel-fortran-rt = ">=2025.0.0,<2026"
-intel-opencl-fpga-emu-rt = ">=2025.0.0,<2026"
 clinfo = ">=3.0.21.2.21,<4"
 tbb-devel = ">=2022.0.0,<2023"
 libxml2 = ">=2.13.5,<3"

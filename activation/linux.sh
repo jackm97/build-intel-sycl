@@ -24,13 +24,3 @@ export PROJECT_TOOLCHAIN_FILE="$PROJECT_ROOT/toolchains/linux.cmake"
 if [ -d "$PIXI_PROJECT_ROOT/vcpkg" ]; then
   export VCPKG_ROOT="$PROJECT_ROOT/vcpkg"
 fi
-
-prefix_lib_path="$BUILD_PREFIX/lib"
-export CFLAGS="${CFLAGS/-Wl,-rpath,$prefix_lib_path/}"
-export CFLAGS="${CFLAGS/-Wl,-rpath,$CUDA_LIB_PATH/}"
-
-export CXXFLAGS="${CXXFLAGS/-Wl,-rpath,$prefix_lib_path/}"
-export CXXFLAGS="${CXXFLAGS/-Wl,-rpath,$CUDA_LIB_PATH/}"
-
-export LDFLAGS="${LDFLAGS/-Wl,-rpath,$prefix_lib_path/}"
-export LDFLAGS="${LDFLAGS/-Wl,-rpath,$CUDA_LIB_PATH/}"
