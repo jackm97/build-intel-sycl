@@ -29,7 +29,7 @@ if file "$binary" | grep -q "ELF"; then
       read -p "Do you want to patching process using sudo? [y/N] " choice
       if [[ "$choice" =~ ^[Yy]$ ]]; then
         mkdir -p "$PROJECT_ROOT/.cache/patch-rpaths"
-        touch -p "$PROJECT_ROOT/.cache/patch-rpaths/enable_sudo"
+        touch "$PROJECT_ROOT/.cache/patch-rpaths/enable_sudo"
         bash -c "sudo '$BUILD_PREFIX'/bin/patchelf --set-rpath '$new_rpath' '$binary'"
         if [[ $? -eq 0 ]]; then
           echo "Successfully updated RPATH for $binary with sudo."
