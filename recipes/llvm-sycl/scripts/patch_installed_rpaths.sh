@@ -13,3 +13,5 @@ for file in $files; do
 done
 
 echo "Done."
+
+rm -rf "$PROJECT_ROOT/.cache/patch-rpaths"

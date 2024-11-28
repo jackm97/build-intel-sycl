@@ -1,18 +1,24 @@
 set(CMAKE_C_COMPILER "$ENV{CC}")
 set(CMAKE_CXX_COMPILER "$ENV{CXX}")
 
-set(CMAKE_INSTALL_RPATH
-    "\$ORIGIN;\$ORIGIN/../lib64;\$ORIGIN/../lib"
-    CACHE STRING "" FORCE)
-set(CMAKE_SKIP_RPATH
-    FALSE
-    CACHE BOOL "" FORCE)
-set(CMAKE_SKIP_INSTALL_RPATH
-    FALSE
-    CACHE BOOL "" FORCE)
-set(CMAKE_SKIP_BUILD_RPATH
-    FALSE
-    CACHE BOOL "" FORCE)
+if(NOT "$ENV{NO_INSTALL_RPATH}" STREQUAL "1")
+  if("$ENV{INSTALL_RPATHS}" STREQUAL "")
+    set(CMAKE_INSTALL_RPATH
+        "\$ORIGIN;\$ORIGIN/../lib64;\$ORIGIN/../lib;\$ORIGIN/../targets/x86_64-linux/lib/stubs"
+    )
+  else()
+    set(CMAKE_INSTALL_RPATH "$ENV{INSTALL_RPATHS}")
+  endif()
+  set(CMAKE_SKIP_RPATH
+      FALSE
+      CACHE BOOL "" FORCE)
+  set(CMAKE_SKIP_INSTALL_RPATH
+      FALSE
+      CACHE BOOL "" FORCE)
+  set(CMAKE_SKIP_BUILD_RPATH
+      FALSE
+      CACHE BOOL "" FORCE)
+endif()
 
 # location of the target environment
 set(CMAKE_FIND_ROOT_PATH "$ENV{PREFIX}" "$ENV{CONDA_BUILD_SYSROOT}")
