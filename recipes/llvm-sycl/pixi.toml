@@ -7,6 +7,8 @@ platforms = ["linux-64"]
 version = "20.0.0"
 
 [feature.runtime.target.linux-64.dependencies]
+cxx-compiler = ">=1.8.0,<2"
+c-compiler = ">=1.8.0,<2"
 cuda = ">=12.6.2,<13"
 pkg-config = ">=0.29.2,<0.30"
 pkgconfig = ">=1.5.5,<2"
