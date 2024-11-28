@@ -4,7 +4,7 @@ set(CMAKE_CXX_COMPILER "$ENV{CXX}")
 if(NOT "$ENV{NO_INSTALL_RPATH}" STREQUAL "1")
   if("$ENV{INSTALL_RPATHS}" STREQUAL "")
     set(CMAKE_INSTALL_RPATH
-        "\$ORIGIN;\$ORIGIN/../lib64;\$ORIGIN/../lib;\$ORIGIN/../targets/x86_64-linux/lib/stubs"
+        "\$ORIGIN;\$ORIGIN/../lib;\$ORIGIN/../lib64;\$ORIGIN/../targets/x86_64-linux/lib/stubs"
     )
   else()
     set(CMAKE_INSTALL_RPATH "$ENV{INSTALL_RPATHS}")

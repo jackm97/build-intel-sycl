@@ -27,6 +27,7 @@ fi
 
 cmake_cmd="cmake -G Ninja ../llvm $CMAKE_ARGS \
   -DCMAKE_TOOLCHAIN_FILE='$PROJECT_ROOT/toolchains/linux.cmake' \
+  -DLLVM_LIBDIR_SUFFIX='' \
   -DLLVM_ENABLE_BACKTRACES=ON \
   -DLLVM_ENABLE_DUMP=ON \
   -DLLVM_ENABLE_LIBEDIT=OFF \
